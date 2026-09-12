@@ -21,6 +21,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.get("/health", (req, res) => {
+    res.json({ status: "ok" });
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/registrations", registrationRoutes);
 app.use("/api/fixtures", fixtureRoutes);
@@ -41,8 +44,8 @@ const PORT = process.env.PORT || 5000;
 async function startServer() {
     await connectDatabase();
 
-    app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
+    app.listen(PORT, "0.0.0.0", () => {
+        console.log(`Server running on port ${PORT}`);
     });
 }
 

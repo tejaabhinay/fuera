@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/fixtures", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/admin/login", "destination": "/index.html" },
+    { "source": "/admin/signup", "destination": "/index.html" },
+    { "source": "/admin/sports", "destination": "/index.html" },
+    { "source": "/admin/fixtures", "destination": "/index.html" },
+    { "source": "/admin/timeline", "destination": "/index.html" },
+    { "source": "/admin/archive", "destination": "/index.html" },
+    { "source": "/admin/admins", "destination": "/index.html" }
+  ]
+}
