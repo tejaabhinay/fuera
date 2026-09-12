@@ -1,0 +1,7 @@
+<svg width="700" height="170" viewBox="0 0 700 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>FUERA</title>
+  <text x="12" y="124" fill="#EFECE5" font-family="Arial Black, Arial, sans-serif" font-size="126" font-weight="900" font-style="italic" letter-spacing="-12">FUERA</text>
+  <path d="M48 143C180 157 442 156 646 126" stroke="#FF5A28" stroke-width="7" stroke-linecap="round"/>
+  <path d="M539 35L625 18" stroke="#FF5A28" stroke-width="6" stroke-linecap="round"/>
+  <path d="M583 51L666 35" stroke="#FF5A28" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+</svg>
