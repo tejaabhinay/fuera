@@ -3,6 +3,7 @@ import ArrowIcon from '../common/ArrowIcon'
 import SportsImage from '../common/SportsImage'
 import { apiRequest, getApiErrorMessage } from '../../services/api'
 import { getSportContacts } from '../../data/sportContacts'
+import { sportGender } from '../../data/sportGender'
 
 function SportArtwork({ sport }) {
   if (!sport.imageUrl) {
@@ -14,25 +15,31 @@ function SportArtwork({ sport }) {
 
 function SportInCharge({ sportName }) {
   const contacts = getSportContacts(sportName)
-  if (!contacts || (!contacts.captains.length && !contacts.viceCaptains.length)) return null
 
-  const groups = [
-    { label: 'Captains', people: contacts.captains },
-    { label: 'Vice captains', people: contacts.viceCaptains },
-  ].filter((group) => group.people.length > 0)
+  if (
+    !contacts ||
+    (!contacts.captains.length && !contacts.viceCaptains.length)
+  ) {
+    return null
+  }
+
+  const people = [
+    ...contacts.captains,
+    ...contacts.viceCaptains,
+  ]
 
   return (
     <div className="sport-in-charge">
-      <span className="sport-in-charge__label">Game In-charge</span>
-      {groups.map((group) => (
-        <div className="sport-in-charge__group" key={group.label}>
-          <span className="sport-in-charge__role">{group.label}</span>
-          {group.people.map((person) => (
-            <div className="sport-in-charge__person" key={`${group.label}-${person.name}`}>
-              <span>{person.name}</span>
-              <a href={`tel:${person.contact}`}>{person.contact}</a>
-            </div>
-          ))}
+      {people.map((person) => (
+        <div
+          className="sport-in-charge__person"
+          key={person.name}
+        >
+          <span>{person.name}</span>
+
+          <a href={`tel:${person.contact}`}>
+            {person.contact}
+          </a>
         </div>
       ))}
     </div>
@@ -75,26 +82,59 @@ export default function FeaturedSports() {
               rel: 'noopener noreferrer',
             }
             return (
-              <article className="event-card" key={sport._id}>
-                <div className="event-image-wrap">
-                  {canRegister ? <a className="sport-card__image-link" {...registrationLinkProps}><SportArtwork sport={sport} /></a> : <SportArtwork sport={sport} />}
-                  <span className="event-tag">{String(index + 1).padStart(2, '0')}</span>
-                </div>
-                <div className="event-copy">
-                  <h3>{canRegister ? <a className="sport-card__name-link" {...registrationLinkProps}>{sport.name}</a> : sport.name}</h3>
-                  {canRegister ? (
-                    <a className="sport-card__register" {...registrationLinkProps}>
-                      Register now <ArrowIcon />
-                    </a>
-                  ) : (
-                    <span className="sport-card__register is-disabled" role="status" aria-label={`${sport.name} registration ${sport.isActive ? 'form coming soon' : 'closed'}`}>
-                      {sport.isActive ? 'FORM COMING SOON' : 'Registration closed'}
-                    </span>
-                  )}
-                  <SportInCharge sportName={sport.name} />
-                </div>
-              </article>
-            )
+  <article className="event-card" key={sport._id}>
+    <div className="event-image-wrap">
+      {canRegister ? (
+        <a className="sport-card__image-link" {...registrationLinkProps}>
+          <SportArtwork sport={sport} />
+        </a>
+      ) : (
+        <SportArtwork sport={sport} />
+      )}
+      <span className="event-tag">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+    </div>
+
+    <div className="event-copy">
+      <div className="sport-card__title">
+        <h3>
+          {canRegister ? (
+            <a className="sport-card__name-link" {...registrationLinkProps}>
+              {sport.name}
+            </a>
+          ) : (
+            sport.name
+          )}
+        </h3>
+
+        {sportGender[sport.name] && (
+          <span className="sport-card__gender">
+            {sportGender[sport.name]}
+          </span>
+        )}
+      </div>
+
+      {canRegister ? (
+        <a className="sport-card__register" {...registrationLinkProps}>
+          Register now <ArrowIcon />
+        </a>
+      ) : (
+        <span
+          className="sport-card__register is-disabled"
+          role="status"
+          aria-label={`${sport.name} registration ${
+            sport.isActive ? 'form coming soon' : 'closed'
+          }`}
+        >
+          {sport.isActive ? 'FORM COMING SOON' : 'Registration closed'}
+        </span>
+      )}
+
+      <SportInCharge sportName={sport.name} />
+    </div>
+  </article>
+    )
           })}
         </div>
       )}
