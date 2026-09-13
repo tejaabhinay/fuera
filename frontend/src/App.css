@@ -982,3 +982,19 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
     font-size: 13px;
   }
 }
+.sport-card__gender {
+  flex-shrink: 0;
+  color: var(--orange) !important;
+  font-family: var(--mono) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  .sport-card__gender {
+    font-size: 14px !important;
+  }
+}

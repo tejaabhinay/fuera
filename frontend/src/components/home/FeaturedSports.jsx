@@ -67,12 +67,15 @@ export default function FeaturedSports() {
       ) : (
         <div className="events-grid">
           {sports.map((sport, index) => {
+            const genderKey = sport.name.replace(/\s+/g, '')
+            const gender = sportGender[sport.name] || sportGender[genderKey]
+
             const canRegister = sport.isActive && sport.formUrl
             const registrationLinkProps = {
-              href: sport.formUrl,
-              target: '_blank',
-              rel: 'noopener noreferrer',
-            }
+            href: sport.formUrl,
+            target: '_blank',
+            rel: 'noopener noreferrer',
+          }
             return (
   <article className="event-card" key={sport._id}>
     <div className="event-image-wrap">
@@ -100,10 +103,10 @@ export default function FeaturedSports() {
           )}
         </h3>
 
-        {sportGender[sport.name] && (
-          <span className="sport-card__gender">
-            {sportGender[sport.name]}
-          </span>
+          {gender && (
+            <span className="sport-card__gender">
+            {gender}
+            </span>
         )}
       </div>
 
