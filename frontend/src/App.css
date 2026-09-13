@@ -883,7 +883,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 .sport-card__gender {
   flex-shrink: 0;
   color: var(--orange);
-  font: 700 8px/1.2 var(--mono);
+  font: 700 14px/1.2 var(--mono);
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -975,5 +975,10 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
   .contacts-list {
     max-width: none;
+  }
+}
+@media (max-width: 700px) {
+  .sport-card__gender {
+    font-size: 13px;
   }
 }

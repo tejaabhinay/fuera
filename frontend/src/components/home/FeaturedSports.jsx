@@ -16,21 +16,13 @@ function SportArtwork({ sport }) {
 function SportInCharge({ sportName }) {
   const contacts = getSportContacts(sportName)
 
-  if (
-    !contacts ||
-    (!contacts.captains.length && !contacts.viceCaptains.length)
-  ) {
+  if (!contacts || !contacts.captains.length) {
     return null
   }
 
-  const people = [
-    ...contacts.captains,
-    ...contacts.viceCaptains,
-  ]
-
   return (
     <div className="sport-in-charge">
-      {people.map((person) => (
+      {contacts.captains.map((person) => (
         <div
           className="sport-in-charge__person"
           key={person.name}
