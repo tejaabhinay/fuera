@@ -23,7 +23,7 @@ function SportInCharge({ sportName }) {
 
   return (
     <div className="sport-in-charge">
-      <span className="sport-in-charge__label">Sport in-charge</span>
+      <span className="sport-in-charge__label">Game In-charge</span>
       {groups.map((group) => (
         <div className="sport-in-charge__group" key={group.label}>
           <span className="sport-in-charge__role">{group.label}</span>
