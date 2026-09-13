@@ -11,7 +11,7 @@ export default function Footer() {
           <span className="footer-credit__team">Team Colosseum</span>
         </p>
         <a className="footer-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Follow on Instagram <ArrowIcon /></a>
-        <a className="footer-contact" href="mailto:thefuera24@gmail.com">hello@fuera.in <ArrowIcon /></a>
+        <a className="footer-contact" href="mailto:thefuera24@gmail.com">thefuera24@gmail.com <ArrowIcon /></a>
       </div>
     </footer>
   )
