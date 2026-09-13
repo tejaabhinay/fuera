@@ -463,7 +463,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
 
 /* =========================================
-   BRAND LOCKUP
+   HEADER BRAND LOCKUP
    SASTRA → SEPARATOR → FUERA
    ========================================= */
 
@@ -475,7 +475,6 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   gap: 1rem;
 }
 
-/* Base image styling */
 .brand-lockup-wrapper img {
   display: block;
   width: auto;
@@ -483,17 +482,17 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   object-fit: contain;
 }
 
-/* SASTRA LOGO — intentionally larger */
+/* Header SASTRA - larger */
 .brand-lockup-wrapper .brand-lockup__sastra {
   height: 4rem;
 }
 
-/* FUERA LOGO — slightly smaller */
+/* Header FUERA */
 .brand-lockup-wrapper .brand-lockup__fuera {
   height: 3.35rem;
 }
 
-/* Separator */
+/* Header separator */
 .brand-lockup-wrapper .brand-lockup__separator {
   width: 1px;
   height: 2.7rem;
@@ -503,10 +502,56 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
 
 /* =========================================
+   FOOTER BRANDING
+   ========================================= */
+
+/*
+   Footer is intentionally smaller than the header.
+   The SASTRA logo remains slightly larger than FUERA,
+   but the overall lockup stays compact.
+*/
+
+.site-footer .brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.8rem;
+}
+
+/* Footer SASTRA */
+.site-footer .brand-lockup__sastra {
+  display: block;
+  width: auto;
+  height: 2.8rem;
+  max-width: none;
+  object-fit: contain;
+}
+
+/* Footer FUERA */
+.site-footer .brand-lockup__fuera {
+  display: block;
+  width: auto;
+  height: 2.4rem;
+  max-width: none;
+  object-fit: contain;
+}
+
+/* Footer separator */
+.site-footer .brand-lockup__separator {
+  width: 1px;
+  height: 2rem;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+
+/* =========================================
    DESKTOP
    ========================================= */
 
 @media (min-width: 1024px) {
+  /* Header */
+
   .brand-eligibility {
     font-size: 0.58rem;
   }
@@ -517,12 +562,10 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
     margin: 0.25rem 0;
   }
 
-  /* Larger SASTRA logo */
   .brand-lockup-wrapper .brand-lockup__sastra {
     height: 4.2rem;
   }
 
-  /* Keep FUERA slightly smaller */
   .brand-lockup-wrapper .brand-lockup__fuera {
     height: 3.5rem;
   }
@@ -534,6 +577,25 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .brand-fest {
     font-size: 0.58rem;
   }
+
+
+  /* Footer */
+
+  .site-footer .brand-lockup {
+    gap: 0.9rem;
+  }
+
+  .site-footer .brand-lockup__sastra {
+    height: 3rem;
+  }
+
+  .site-footer .brand-lockup__fuera {
+    height: 2.55rem;
+  }
+
+  .site-footer .brand-lockup__separator {
+    height: 2.15rem;
+  }
 }
 
 
@@ -542,6 +604,8 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
    ========================================= */
 
 @media (max-width: 1023px) {
+  /* Header */
+
   .brand-lockup-wrapper {
     transform: scale(1.12);
     transform-origin: left center;
@@ -558,6 +622,25 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .brand-lockup-wrapper .brand-lockup__separator {
     height: 2.4rem;
   }
+
+
+  /* Footer */
+
+  .site-footer .brand-lockup {
+    gap: 0.7rem;
+  }
+
+  .site-footer .brand-lockup__sastra {
+    height: 2.6rem;
+  }
+
+  .site-footer .brand-lockup__fuera {
+    height: 2.2rem;
+  }
+
+  .site-footer .brand-lockup__separator {
+    height: 1.85rem;
+  }
 }
 
 
@@ -566,6 +649,8 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
    ========================================= */
 
 @media (max-width: 600px) {
+  /* Header */
+
   .public-brand {
     max-width: calc(100vw - 5rem);
   }
@@ -587,13 +672,11 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
     gap: 0.6rem;
   }
 
-  /* SASTRA remains larger */
   .brand-lockup-wrapper .brand-lockup__sastra {
     height: 2.8rem;
     max-width: 46vw;
   }
 
-  /* FUERA remains smaller */
   .brand-lockup-wrapper .brand-lockup__fuera {
     height: 2.35rem;
     max-width: 42vw;
@@ -608,6 +691,27 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
     letter-spacing: 0.1em;
     margin-top: 0.25rem;
   }
+
+
+  /* Footer */
+
+  .site-footer .brand-lockup {
+    gap: 0.55rem;
+  }
+
+  .site-footer .brand-lockup__sastra {
+    height: 2.35rem;
+    max-width: 43vw;
+  }
+
+  .site-footer .brand-lockup__fuera {
+    height: 2rem;
+    max-width: 38vw;
+  }
+
+  .site-footer .brand-lockup__separator {
+    height: 1.65rem;
+  }
 }
 
 
@@ -616,6 +720,8 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
    ========================================= */
 
 @media (max-width: 380px) {
+  /* Header */
+
   .brand-eligibility {
     font-size: 0.38rem;
   }
@@ -625,13 +731,11 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
     gap: 0.45rem;
   }
 
-  /* SASTRA */
   .brand-lockup-wrapper .brand-lockup__sastra {
     height: 2.5rem;
     max-width: 44vw;
   }
 
-  /* FUERA */
   .brand-lockup-wrapper .brand-lockup__fuera {
     height: 2.1rem;
     max-width: 40vw;
@@ -643,5 +747,26 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
   .brand-fest {
     font-size: 0.38rem;
+  }
+
+
+  /* Footer */
+
+  .site-footer .brand-lockup {
+    gap: 0.45rem;
+  }
+
+  .site-footer .brand-lockup__sastra {
+    height: 2.1rem;
+    max-width: 41vw;
+  }
+
+  .site-footer .brand-lockup__fuera {
+    height: 1.8rem;
+    max-width: 36vw;
+  }
+
+  .site-footer .brand-lockup__separator {
+    height: 1.5rem;
   }
 }
