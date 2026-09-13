@@ -908,7 +908,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
 .department-contact__label,
 .technical-contact__label {
-  font-size: 10px;
+  font-size: 15px;
   letter-spacing: .1em;
 }
 @media (max-width: 700px) {
@@ -996,5 +996,18 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 @media (max-width: 700px) {
   .sport-card__gender {
     font-size: 14px !important;
+  }
+}
+/* Add to the END of App.css */
+
+.scroll-reveal {
+  will-change: transform, opacity, clip-path;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    transform: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
   }
 }

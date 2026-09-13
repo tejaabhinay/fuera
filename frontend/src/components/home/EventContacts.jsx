@@ -1,4 +1,7 @@
+// EventContacts.jsx
+
 import { eventContacts } from '../../data/eventContacts'
+import ScrollReveal from '../common/ScrollReveal'
 
 export default function EventContacts() {
   const primaryContact = eventContacts[0]
@@ -10,14 +13,14 @@ export default function EventContacts() {
       aria-labelledby="contacts-title"
     >
       <div>
-        <h2 id="contacts-title">
-          ANY QUERIES?<br />
+        <ScrollReveal as="h2" id="contacts-title">
+          ANY QUERIES?
+          <br />
           <em>CONTACT</em>
-        </h2>
+        </ScrollReveal>
       </div>
 
       <div className="contacts-list">
-        {/* Main Contact */}
         {primaryContact && (
           <div className="contact-item">
             <span>{primaryContact.name}</span>
@@ -30,17 +33,18 @@ export default function EventContacts() {
                 {primaryContact.phone}
               </span>
             ) : (
-              <a href={`tel:${primaryContact.phone.replace(/\s/g, '')}`}>
+              <a
+                href={`tel:${primaryContact.phone.replace(/\s/g, '')}`}
+              >
                 {primaryContact.phone}
               </a>
             )}
           </div>
         )}
 
-        {/* Physical Education Department */}
         <div className="department-contact">
           <span className="department-contact__label">
-            FOR FURTHER DETAILS
+            <b>FOR FURTHER DETAILS</b>
           </span>
 
           <span>Physical Education Department</span>
@@ -49,7 +53,6 @@ export default function EventContacts() {
           <span>Thanjavur – 613401, Tamil Nadu</span>
         </div>
 
-        {/* Website Technical Support */}
         <div className="technical-contact">
           <span className="technical-contact__label">
             WEBSITE TECHNICAL SUPPORT

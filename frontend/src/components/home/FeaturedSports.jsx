@@ -1,16 +1,33 @@
+// FeaturedSports.jsx
+
 import { useEffect, useState } from 'react'
 import ArrowIcon from '../common/ArrowIcon'
 import SportsImage from '../common/SportsImage'
+import ScrollReveal from '../common/ScrollReveal'
 import { apiRequest, getApiErrorMessage } from '../../services/api'
 import { getSportContacts } from '../../data/sportContacts'
 import { sportGender } from '../../data/sportGender'
 
 function SportArtwork({ sport }) {
   if (!sport.imageUrl) {
-    return <div className="sport-card__placeholder" role="img" aria-label={`${sport.name} image coming soon`}><span>{sport.name}</span></div>
+    return (
+      <div
+        className="sport-card__placeholder"
+        role="img"
+        aria-label={`${sport.name} image coming soon`}
+      >
+        <span>{sport.name}</span>
+      </div>
+    )
   }
 
-  return <SportsImage src={sport.imageUrl} alt={sport.name} className="event-image" />
+  return (
+    <SportsImage
+      src={sport.imageUrl}
+      alt={sport.name}
+      className="event-image"
+    />
+  )
 }
 
 function SportInCharge({ sportName }) {
@@ -45,91 +62,146 @@ export default function FeaturedSports() {
 
   useEffect(() => {
     let active = true
-    apiRequest('/api/sports', { auth: false })
-      .then((data) => { if (active) setSports(data?.sports || []) })
-      .catch((requestError) => { if (active) setError(getApiErrorMessage(requestError, 'Unable to load sports. Please try again.')) })
-      .finally(() => { if (active) setLoading(false) })
 
-    return () => { active = false }
+    apiRequest('/api/sports', { auth: false })
+      .then((data) => {
+        if (active) setSports(data?.sports || [])
+      })
+      .catch((requestError) => {
+        if (active) {
+          setError(
+            getApiErrorMessage(
+              requestError,
+              'Unable to load sports. Please try again.'
+            )
+          )
+        }
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
   }, [])
 
   return (
-    <section className="events section-wrap" id="sports" aria-labelledby="sports-heading">
+    <section
+      className="events section-wrap"
+      id="sports"
+      aria-labelledby="sports-heading"
+    >
       <div className="events-heading-row">
         <div>
-          <h2 id="sports-heading">Find your <em>sport.</em></h2>
+          <ScrollReveal as="h2" id="sports-heading">
+            Find your <em>sport.</em>
+          </ScrollReveal>
         </div>
       </div>
-      {loading ? <p className="sports-feedback" role="status">Loading sports…</p> : error ? (
-        <p className="sports-feedback" role="alert">{error}</p>
+
+      {loading ? (
+        <p className="sports-feedback" role="status">
+          Loading sports…
+        </p>
+      ) : error ? (
+        <p className="sports-feedback" role="alert">
+          {error}
+        </p>
       ) : sports.length === 0 ? (
-        <p className="sports-feedback" role="status">Sports will appear here once they are configured.</p>
+        <p className="sports-feedback" role="status">
+          Sports will appear here once they are configured.
+        </p>
       ) : (
         <div className="events-grid">
           {sports.map((sport, index) => {
             const genderKey = sport.name.replace(/\s+/g, '')
-            const gender = sportGender[sport.name] || sportGender[genderKey]
+            const gender =
+              sportGender[sport.name] ||
+              sportGender[genderKey]
 
-            const canRegister = sport.isActive && sport.formUrl
+            const canRegister =
+              sport.isActive && sport.formUrl
+
             const registrationLinkProps = {
-            href: sport.formUrl,
-            target: '_blank',
-            rel: 'noopener noreferrer',
-          }
+              href: sport.formUrl,
+              target: '_blank',
+              rel: 'noopener noreferrer',
+            }
+
             return (
-  <article className="event-card" key={sport._id}>
-    <div className="event-image-wrap">
-      {canRegister ? (
-        <a className="sport-card__image-link" {...registrationLinkProps}>
-          <SportArtwork sport={sport} />
-        </a>
-      ) : (
-        <SportArtwork sport={sport} />
-      )}
-      <span className="event-tag">
-        {String(index + 1).padStart(2, '0')}
-      </span>
-    </div>
+              <article
+                className="event-card"
+                key={sport._id}
+              >
+                <div className="event-image-wrap">
+                  {canRegister ? (
+                    <a
+                      className="sport-card__image-link"
+                      {...registrationLinkProps}
+                    >
+                      <SportArtwork sport={sport} />
+                    </a>
+                  ) : (
+                    <SportArtwork sport={sport} />
+                  )}
 
-    <div className="event-copy">
-      <div className="sport-card__title">
-        <h3>
-          {canRegister ? (
-            <a className="sport-card__name-link" {...registrationLinkProps}>
-              {sport.name}
-            </a>
-          ) : (
-            sport.name
-          )}
-        </h3>
+                  <span className="event-tag">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
 
-          {gender && (
-            <span className="sport-card__gender">
-            {gender}
-            </span>
-        )}
-      </div>
+                <div className="event-copy">
+                  <div className="sport-card__title">
+                    <h3>
+                      {canRegister ? (
+                        <a
+                          className="sport-card__name-link"
+                          {...registrationLinkProps}
+                        >
+                          {sport.name}
+                        </a>
+                      ) : (
+                        sport.name
+                      )}
+                    </h3>
 
-      {canRegister ? (
-        <a className="sport-card__register" {...registrationLinkProps}>
-          Register now <ArrowIcon />
-        </a>
-      ) : (
-        <span
-          className="sport-card__register is-disabled"
-          role="status"
-          aria-label={`${sport.name} registration ${
-            sport.isActive ? 'form coming soon' : 'closed'
-          }`}
-        >
-          {sport.isActive ? 'FORM COMING SOON' : 'Registration closed'}
-        </span>
-      )}
+                    {gender && (
+                      <span className="sport-card__gender">
+                        {gender}
+                      </span>
+                    )}
+                  </div>
 
-      <SportInCharge sportName={sport.name} />
-    </div>
-  </article>
-    )
+                  {canRegister ? (
+                    <a
+                      className="sport-card__register"
+                      {...registrationLinkProps}
+                    >
+                      Register now <ArrowIcon />
+                    </a>
+                  ) : (
+                    <span
+                      className="sport-card__register is-disabled"
+                      role="status"
+                      aria-label={`${sport.name} registration ${
+                        sport.isActive
+                          ? 'form coming soon'
+                          : 'closed'
+                      }`}
+                    >
+                      {sport.isActive
+                        ? 'FORM COMING SOON'
+                        : 'Registration closed'}
+                    </span>
+                  )}
+
+                  <SportInCharge
+                    sportName={sport.name}
+                  />
+                </div>
+              </article>
+            )
           })}
         </div>
       )}
