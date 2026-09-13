@@ -58,7 +58,7 @@ export default function EventContacts() {
             WEBSITE TECHNICAL SUPPORT
           </span>
 
-          <span>P. Teja Abhinay</span>
+          <span><b>P. Teja Abhinay</b></span>
 
           <a href="tel:+919949220260">
             +91 9949220260

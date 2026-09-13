@@ -153,25 +153,25 @@ export default function FeaturedSports() {
 
                 <div className="event-copy">
                   <div className="sport-card__title">
-                    <h3>
-                      {canRegister ? (
-                        <a
-                          className="sport-card__name-link"
-                          {...registrationLinkProps}
-                        >
-                          {sport.name}
-                        </a>
-                      ) : (
-                        sport.name
-                      )}
-                    </h3>
+  <h3>
+    {canRegister ? (
+      <a
+        className="sport-card__name-link"
+        {...registrationLinkProps}
+      >
+        {sport.name}
+      </a>
+    ) : (
+      sport.name
+    )}
+  </h3>
 
-                    {gender && (
-                      <span className="sport-card__gender">
-                        {gender}
-                      </span>
-                    )}
-                  </div>
+  {gender && (
+    <span className="sport-card__gender">
+      {gender}
+    </span>
+  )}
+</div>
 
                   {canRegister ? (
                     <a

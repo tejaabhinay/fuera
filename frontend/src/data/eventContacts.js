@@ -1,3 +1,3 @@
 export const eventContacts = [
-  { name: 'Kiruthish Vijay P', phone: '+91 63816 38842' },
+  { name: 'Kiruthish Vijay R', phone: '+91 63816 38842' },
 ]
