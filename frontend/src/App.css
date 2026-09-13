@@ -412,3 +412,236 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .not-found__copy { font-size: 14px; }
   .success-card { max-width: 860px; }
 }
+/* =========================================
+   HEADER BRANDING
+   ========================================= */
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.public-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+}
+
+.brand-eligibility {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.55rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.brand-lockup-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  transform: scale(1.18);
+  transform-origin: left center;
+  margin: 0.15rem 0;
+}
+
+.brand-fest {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.55rem;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   BRAND LOCKUP
+   SASTRA → SEPARATOR → FUERA
+   ========================================= */
+
+.brand-lockup-wrapper .brand-lockup,
+.brand-lockup-wrapper > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+/* Base image styling */
+.brand-lockup-wrapper img {
+  display: block;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+}
+
+/* SASTRA LOGO — intentionally larger */
+.brand-lockup-wrapper .brand-lockup__sastra {
+  height: 4rem;
+}
+
+/* FUERA LOGO — slightly smaller */
+.brand-lockup-wrapper .brand-lockup__fuera {
+  height: 3.35rem;
+}
+
+/* Separator */
+.brand-lockup-wrapper .brand-lockup__separator {
+  width: 1px;
+  height: 2.7rem;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+
+/* =========================================
+   DESKTOP
+   ========================================= */
+
+@media (min-width: 1024px) {
+  .brand-eligibility {
+    font-size: 0.58rem;
+  }
+
+  .brand-lockup-wrapper {
+    transform: scale(1.28);
+    transform-origin: left center;
+    margin: 0.25rem 0;
+  }
+
+  /* Larger SASTRA logo */
+  .brand-lockup-wrapper .brand-lockup__sastra {
+    height: 4.2rem;
+  }
+
+  /* Keep FUERA slightly smaller */
+  .brand-lockup-wrapper .brand-lockup__fuera {
+    height: 3.5rem;
+  }
+
+  .brand-lockup-wrapper .brand-lockup__separator {
+    height: 2.9rem;
+  }
+
+  .brand-fest {
+    font-size: 0.58rem;
+  }
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 1023px) {
+  .brand-lockup-wrapper {
+    transform: scale(1.12);
+    transform-origin: left center;
+  }
+
+  .brand-lockup-wrapper .brand-lockup__sastra {
+    height: 3.4rem;
+  }
+
+  .brand-lockup-wrapper .brand-lockup__fuera {
+    height: 2.8rem;
+  }
+
+  .brand-lockup-wrapper .brand-lockup__separator {
+    height: 2.4rem;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+  .public-brand {
+    max-width: calc(100vw - 5rem);
+  }
+
+  .brand-eligibility {
+    font-size: 0.43rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.25rem;
+  }
+
+  .brand-lockup-wrapper {
+    transform: scale(1);
+    transform-origin: left center;
+    margin: 0.1rem 0;
+  }
+
+  .brand-lockup-wrapper .brand-lockup,
+  .brand-lockup-wrapper > div {
+    gap: 0.6rem;
+  }
+
+  /* SASTRA remains larger */
+  .brand-lockup-wrapper .brand-lockup__sastra {
+    height: 2.8rem;
+    max-width: 46vw;
+  }
+
+  /* FUERA remains smaller */
+  .brand-lockup-wrapper .brand-lockup__fuera {
+    height: 2.35rem;
+    max-width: 42vw;
+  }
+
+  .brand-lockup-wrapper .brand-lockup__separator {
+    height: 2.1rem;
+  }
+
+  .brand-fest {
+    font-size: 0.43rem;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+  }
+}
+
+
+/* =========================================
+   SMALL PHONES
+   ========================================= */
+
+@media (max-width: 380px) {
+  .brand-eligibility {
+    font-size: 0.38rem;
+  }
+
+  .brand-lockup-wrapper .brand-lockup,
+  .brand-lockup-wrapper > div {
+    gap: 0.45rem;
+  }
+
+  /* SASTRA */
+  .brand-lockup-wrapper .brand-lockup__sastra {
+    height: 2.5rem;
+    max-width: 44vw;
+  }
+
+  /* FUERA */
+  .brand-lockup-wrapper .brand-lockup__fuera {
+    height: 2.1rem;
+    max-width: 40vw;
+  }
+
+  .brand-lockup-wrapper .brand-lockup__separator {
+    height: 1.9rem;
+  }
+
+  .brand-fest {
+    font-size: 0.38rem;
+  }
+}

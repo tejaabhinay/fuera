@@ -4,40 +4,120 @@ import BrandLockup from '../common/BrandLockup'
 
 export default function SiteHeader({ isHome = false }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const closeMenu = () => setMenuOpen(false)
+
+  const closeMenu = () => {
+    setMenuOpen(false)
+  }
+
   const homeLink = isHome ? '#top' : '/'
   const sportsLink = isHome ? '#sports' : '/#sports'
+  const archiveLink = isHome ? '#archive' : '/#archive'
+  const contactLink = isHome ? '#contact' : '/#contact'
 
   useEffect(() => {
-    if (!menuOpen) return undefined
+    if (!menuOpen) {
+      return undefined
+    }
 
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') closeMenu()
+      if (event.key === 'Escape') {
+        closeMenu()
+      }
     }
 
     document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
   }, [menuOpen])
 
   return (
     <header className="site-header">
-      <a className="nav-brand" href={homeLink} onClick={closeMenu} aria-label="Fuera home">
+      <a
+        className="nav-brand"
+        href={homeLink}
+        onClick={closeMenu}
+        aria-label="FUERA home"
+      >
         <span className="public-brand">
-          <span className="brand-eligibility">ONLY FOR SASTRA STUDENTS</span>
-          <BrandLockup />
-          <span className="brand-fest">INTRA-COLLEGE SPORTS FEST</span>
+
+          <span className="brand-lockup-wrapper">
+            <BrandLockup />
+          </span>
+
+          <span className="brand-fest">
+            INTRA-COLLEGE SPORTS FEST FOR SASTRA STUDENTS
+          </span>
         </span>
       </a>
-      <button className={`menu-toggle ${menuOpen ? 'is-open' : ''}`} type="button" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen((isOpen) => !isOpen)}>
+
+      <button
+        className={`menu-toggle ${menuOpen ? 'is-open' : ''}`}
+        type="button"
+        aria-label={
+          menuOpen
+            ? 'Close navigation'
+            : 'Open navigation'
+        }
+        aria-expanded={menuOpen}
+        aria-controls="main-navigation"
+        onClick={() => setMenuOpen((isOpen) => !isOpen)}
+      >
         <span className="menu-label">Menu</span>
-        <span className="menu-lines" aria-hidden="true"><i /><i /></span>
+
+        <span
+          className="menu-lines"
+          aria-hidden="true"
+        >
+          <i />
+          <i />
+        </span>
       </button>
-      <nav id="main-navigation" className={`main-navigation ${menuOpen ? 'is-open' : ''}`} aria-label="Main navigation">
-        <a href={sportsLink} onClick={closeMenu}>Sports</a>
-        <a href="/fixtures" onClick={closeMenu}>Fixtures</a>
-        <a href={isHome ? '#archive' : '/#archive'} onClick={closeMenu}>Archive</a>
-        <a href={isHome ? '#contact' : '/#contact'} onClick={closeMenu}>Contact</a>
-        <a className="nav-cta" href={sportsLink} onClick={closeMenu}>Register now <ArrowIcon /></a>
+
+      <nav
+        id="main-navigation"
+        className={`main-navigation ${
+          menuOpen ? 'is-open' : ''
+        }`}
+        aria-label="Main navigation"
+      >
+        <a
+          href={sportsLink}
+          onClick={closeMenu}
+        >
+          Sports
+        </a>
+
+        <a
+          href="/fixtures"
+          onClick={closeMenu}
+        >
+          Fixtures
+        </a>
+
+        <a
+          href={archiveLink}
+          onClick={closeMenu}
+        >
+          Archive
+        </a>
+
+        <a
+          href={contactLink}
+          onClick={closeMenu}
+        >
+          Contact
+        </a>
+
+        <a
+          className="nav-cta"
+          href={sportsLink}
+          onClick={closeMenu}
+        >
+          <span>Register now</span>
+          <ArrowIcon />
+        </a>
       </nav>
     </header>
   )

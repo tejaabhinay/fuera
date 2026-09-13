@@ -8,7 +8,7 @@ export default function Footer() {
         <BrandLockup className="footer-brand" />
         <p className="footer-credit">
           <span className="footer-credit__love">Made with <em>love</em></span>
-          <span className="footer-credit__team">from Team KSPR and Colloseum</span>
+          <span className="footer-credit__team">from Colosseum</span>
         </p>
         <a className="footer-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Follow on Instagram <ArrowIcon /></a>
         <a className="footer-contact" href="mailto:hello@fuera.in">hello@fuera.in <ArrowIcon /></a>
