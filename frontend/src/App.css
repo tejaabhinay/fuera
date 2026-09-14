@@ -1011,3 +1011,38 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
     clip-path: none !important;
   }
 }
+/* Add/replace this in your CSS */
+
+.sport-card__title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sport-card__title h3 {
+  margin: 0;
+  width: 100%;
+}
+
+.sport-card__gender {
+  display: block;
+  margin: 0;
+  color: var(--orange) !important;
+  font-family: var(--mono) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  .sport-card__title {
+    gap: 6px;
+  }
+
+  .sport-card__gender {
+    font-size: 14px !important;
+  }
+}
