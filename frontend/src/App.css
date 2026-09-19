@@ -229,9 +229,9 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .department-contact > .department-contact__name { font-size: 25px; }
   .hero-sport--badminton { top: 7%; left: -5px; width: 58px; }
   .hero-sport--basketball { top: 7%; right: -5px; width: 60px; }
-  .hero-sport--football { top: 27%; left: -78px; width: 108px; }
+  .hero-sport--football { top: 30%; left: -78px; width: 108px; }
   .hero-sport--cricket { right: -76px; bottom: 1%; width: 108px; }
-  .hero-sport--carrom { top: 43%; left: -42px; width: 58px; }
+  .hero-sport--carrom { top: 46%; left: -42px; width: 58px; }
   .hero-sport--chess { top: 44%; right: -34px; width: 56px; }
   .hero-sport--handball { bottom: 22%; left: -32px; width: 66px; }
   .hero-sport--kabaddi { right: -28px; bottom: 23%; width: 82px; }
@@ -261,12 +261,23 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
   .hero-sport--badminton { left: 8px; width: 58px; }
   .hero-sport--basketball { right: 8px; width: 60px; }
-  .hero-sport--football { left: -44px; width: 100px; }
-  .hero-sport--cricket { right: -42px; width: 100px; }
-  .hero-sport--carrom { left: -22px; width: 54px; }
-  .hero-sport--chess { right: -18px; width: 52px; }
-  .hero-sport--handball { left: -24px; width: 62px; }
-  .hero-sport--kabaddi { right: -20px; width: 78px; }
+  .hero-sport--football { left: -12px; width: 90px; }
+  .hero-sport--cricket { right: 2px; width: 92px; }
+  .hero-sport--carrom { left: 2px; width: 64px; }
+  .hero-sport--chess { right: 2px; width: 62px; }
+  .hero-sport--handball { left: 2px; width: 70px; }
+  .hero-sport--kabaddi { right: 2px; width: 88px; }
+}
+
+@media (max-width: 380px) {
+  .hero-sport--badminton { left: 4px; width: 52px; }
+  .hero-sport--basketball { right: 4px; width: 54px; }
+  .hero-sport--football { left: -6px; width: 82px; }
+  .hero-sport--cricket { right: 2px; width: 84px; }
+  .hero-sport--carrom { left: 2px; width: 56px; }
+  .hero-sport--chess { right: 2px; width: 54px; }
+  .hero-sport--handball { left: 2px; width: 60px; }
+  .hero-sport--kabaddi { right: 2px; width: 78px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
