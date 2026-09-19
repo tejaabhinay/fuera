@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import ArrowIcon from '../common/ArrowIcon'
 import BrandLockup from '../common/BrandLockup'
 
 export default function SiteHeader({ isHome = false }) {
@@ -33,7 +32,7 @@ export default function SiteHeader({ isHome = false }) {
   }, [menuOpen])
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${isHome ? 'site-header--home' : ''}`}>
       <a
         className="nav-brand"
         href={homeLink}
@@ -44,10 +43,6 @@ export default function SiteHeader({ isHome = false }) {
 
           <span className="brand-lockup-wrapper">
             <BrandLockup />
-          </span>
-
-          <span className="brand-fest">
-            INTRA-COLLEGE SPORTS FEST FOR SASTRA STUDENTS
           </span>
         </span>
       </a>
@@ -110,14 +105,6 @@ export default function SiteHeader({ isHome = false }) {
           Contact
         </a>
 
-        <a
-          className="nav-cta"
-          href={sportsLink}
-          onClick={closeMenu}
-        >
-          <span>Register now</span>
-          <ArrowIcon />
-        </a>
       </nav>
     </header>
   )

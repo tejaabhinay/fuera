@@ -21,9 +21,23 @@ export default function EventContacts() {
       </div>
 
       <div className="contacts-list">
+        <div className="department-contact">
+          <span className="department-contact__label">
+            <b>FOR FURTHER DETAILS</b>
+          </span>
+          <span className="department-contact__name">Dr. B. SRIPERIYA</span>
+          <span>Department of Physical Education</span>
+          <span>Student Activity Centre</span>
+          <span>SASTRA DEEMED UNIVERSITY</span>
+          <span>Thanjavur – 613401, Tamil Nadu</span>
+        </div>
+
         {primaryContact && (
           <div className="contact-item">
-            <span>{primaryContact.name}</span>
+            <span className="contact-item__label">
+              REGISTRATION QUERIES
+            </span>
+            <span className="contact-item__name">{primaryContact.name}</span>
 
             {primaryContact.phone.includes('X') ? (
               <span
@@ -41,17 +55,6 @@ export default function EventContacts() {
             )}
           </div>
         )}
-
-        <div className="department-contact">
-          <span className="department-contact__label">
-            <b>FOR FURTHER DETAILS</b>
-          </span>
-
-          <span>Physical Education Department</span>
-          <span>Student Activity Centre</span>
-          <span>SASTRA DEEMED UNIVERSITY</span>
-          <span>Thanjavur – 613401, Tamil Nadu</span>
-        </div>
 
         <div className="technical-contact">
           <span className="technical-contact__label">

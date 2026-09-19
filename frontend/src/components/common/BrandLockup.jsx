@@ -1,5 +1,5 @@
 export const FUERA_LOGO_SRC = '/images/fuera26-27.png'
-export const SASTRA_LOGO_SRC = '/images/sastralogo.png'
+export const SASTRA_LOGO_SRC = '/images/sastralogo.jpg'
 
 export default function BrandLockup({ className = '', label = '' }) {
   return (
