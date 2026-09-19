@@ -100,7 +100,7 @@ function SportRulesModal({ sport, onClose }) {
         )}
 
         <p className="sport-rules-modal__eligibility">
-          Open to all UG, PG, &amp; PhD scholars. Applicable for all sports.
+          Open to all UG, PG, &amp; PhD scholars.
         </p>
 
         <label className="sport-rules-modal__agreement">

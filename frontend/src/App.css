@@ -32,7 +32,7 @@
 .hero h1 { max-width: 100%; min-height: calc(3 * .86em); margin: 0; color: var(--paper); font: 800 clamp(42px, 12vw, 58px)/.86 var(--display); letter-spacing: -.04em; text-transform: uppercase; }
 .mobile-break { display: inline; }
 .hero h1 em, h2 em { color: var(--orange); font-style: normal; }
-.hero-title-cursor { display: inline-block; width: .07em; height: .78em; margin-left: .1em; vertical-align: -.06em; background: currentColor; animation: hero-title-cursor-blink .8s steps(2, end) infinite; }
+.hero-title-cursor { display: inline-block; width: .085em; height: .94em; margin-left: .12em; vertical-align: -.04em; border-radius: .04em; background: currentColor; animation: hero-title-cursor-blink .8s steps(2, end) infinite; }
 @keyframes hero-title-cursor-blink { 50% { opacity: .18; } }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 48px; padding: 15px 18px; text-transform: uppercase; font: 700 9px/1 var(--mono); letter-spacing: .07em; transition: gap .25s ease, background .25s ease, color .25s ease; }
 .button:hover { gap: 28px; }
@@ -679,6 +679,105 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
   .contacts-section > div:first-child h2 {
     margin: 0;
+  }
+}
+
+/* Final visual polish */
+
+.main-navigation.is-open {
+  border: 1px solid rgba(239, 236, 229, 0.12);
+  border-top: 2px solid var(--orange);
+  backdrop-filter: blur(14px);
+}
+
+.hero-wordmark {
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.24));
+}
+
+.hero-fest-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.hero-fest-label::before,
+.hero-fest-label::after {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 1px;
+  flex: 0 0 auto;
+  background: var(--orange);
+  opacity: 0.7;
+}
+
+.hero-content .button-primary {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 28px rgba(255, 90, 40, 0.2);
+  transition: gap 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.hero-content .button-primary:hover,
+.hero-content .button-primary:focus-visible {
+  box-shadow: 0 16px 36px rgba(255, 90, 40, 0.32);
+  transform: translateY(-2px);
+}
+
+.hero-sport {
+  will-change: margin-top;
+}
+
+.hero-sport:not(.hero-sport--light) {
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.18));
+}
+
+.hero-sport--light {
+  filter: brightness(0) invert(1) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
+}
+
+.event-image-wrap {
+  border-radius: 5px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+}
+
+.event-card--interactive {
+  transition: transform 0.25s ease;
+}
+
+.event-card--interactive:hover,
+.event-card--interactive:focus-within {
+  transform: translateY(-4px);
+}
+
+.sport-rules-modal {
+  border-top: 4px solid var(--orange);
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+}
+
+.contact-item,
+.department-contact,
+.technical-contact {
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.contact-item:hover,
+.department-contact:hover,
+.technical-contact:hover {
+  border-color: rgba(255, 90, 40, 0.65);
+}
+
+@media (max-width: 570px) {
+  .hero-fest-label {
+    gap: 7px;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-fest-label::before,
+  .hero-fest-label::after {
+    width: 12px;
   }
 }
 
