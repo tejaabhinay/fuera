@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import '../../admin.css'
 import BrandLockup from '../../components/common/BrandLockup'
 import { apiRequest, getApiErrorMessage, getAuthToken, setAuthToken } from '../../services/api'
 

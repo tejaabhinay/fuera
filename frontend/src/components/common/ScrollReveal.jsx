@@ -1,5 +1,3 @@
-// frontend/src/components/common/ScrollReveal.jsx
-
 import { useEffect, useRef, useState } from 'react'
 
 export default function ScrollReveal({
@@ -13,19 +11,17 @@ export default function ScrollReveal({
 
   useEffect(() => {
     const element = ref.current
-    if (!element) return
+    if (!element) return undefined
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        } else {
-          setIsVisible(false)
-        }
+        if (!entry.isIntersecting) return
+        // The reveal is a one-way entrance animation. Re-hiding on exit made it replay —
+        // and re-render — every time the heading scrolled past.
+        setIsVisible(true)
+        observer.disconnect()
       },
-      {
-        threshold: 0.1,
-      }
+      { threshold: 0.1 },
     )
 
     observer.observe(element)

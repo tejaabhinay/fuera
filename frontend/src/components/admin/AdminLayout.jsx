@@ -6,6 +6,7 @@ const navigation = [
   { href: '/admin', label: 'Overview' },
   { href: '/admin/fixtures', label: 'Fixtures' },
   { href: '/admin/sports', label: 'Sports' },
+  { href: '/admin/leaderboard', label: 'Standings' },
   { href: '/admin/timeline', label: 'Timeline' },
   { href: '/admin/archive', label: 'Archive' },
   { href: '/admin/admins', label: 'Administrators' },

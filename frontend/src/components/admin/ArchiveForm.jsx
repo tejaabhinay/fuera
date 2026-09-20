@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDialog } from '../../hooks/useDialog'
 import ImageUploadField from './ImageUploadField'
 
 function toFormValue(archive) {
@@ -14,6 +15,7 @@ function toFormValue(archive) {
 export default function ArchiveForm({ initialArchive, onSubmit, onCancel, submitting = false }) {
   const [form, setForm] = useState(() => toFormValue(initialArchive))
   const [error, setError] = useState('')
+  const dialogRef = useDialog(onCancel)
 
   const updateField = (event) => {
     const { name, value } = event.target
@@ -46,7 +48,7 @@ export default function ArchiveForm({ initialArchive, onSubmit, onCancel, submit
 
   return (
     <div className="admin-modal-backdrop" role="presentation">
-      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="archive-form-title">
+      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="archive-form-title" ref={dialogRef} tabIndex={-1}>
         <div className="admin-modal-heading">
           <div><span className="admin-eyebrow">Previous editions</span><h2 id="archive-form-title">{initialArchive ? 'Edit archive image' : 'Add archive image'}</h2></div>
           <button className="admin-modal-close" type="button" onClick={onCancel} aria-label="Close archive form">×</button>

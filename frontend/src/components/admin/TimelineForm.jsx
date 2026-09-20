@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDialog } from '../../hooks/useDialog'
 
 function dateValue(value) {
   return value ? String(value).slice(0, 10) : ''
@@ -14,6 +15,7 @@ function toFormValue(event) {
 export default function TimelineForm({ initialEvent, onSubmit, onCancel, submitting = false }) {
   const [form, setForm] = useState(() => toFormValue(initialEvent))
   const [error, setError] = useState('')
+  const dialogRef = useDialog(onCancel)
 
   const updateField = (event) => {
     const { name, value } = event.target
@@ -36,7 +38,7 @@ export default function TimelineForm({ initialEvent, onSubmit, onCancel, submitt
 
   return (
     <div className="admin-modal-backdrop" role="presentation">
-      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="timeline-form-title">
+      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="timeline-form-title" ref={dialogRef} tabIndex={-1}>
         <div className="admin-modal-heading">
           <div>
             <span className="admin-eyebrow">Homepage timeline</span>

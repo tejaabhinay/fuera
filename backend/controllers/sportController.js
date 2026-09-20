@@ -1,57 +1,44 @@
 const Sport = require('../models/Sport')
-const { isPlainObject, pickFields, sendValidationError } = require('./contentUtils')
+const {
+  createRequestValidator,
+  has,
+  isFiniteNumber,
+  isValidHttpUrl,
+  isValidationError,
+  sendValidationError,
+  trimFields,
+} = require('./contentUtils')
+
+const LIST_LIMIT = 200
 
 const sportFields = ['name', 'formUrl', 'imageUrl', 'isActive', 'order']
 
 function normalizeSportPayload(payload) {
-  const stringFields = ['name', 'formUrl', 'imageUrl']
-  stringFields.forEach((field) => {
-    if (typeof payload[field] === 'string') payload[field] = payload[field].trim()
-  })
-  return payload
-}
-
-function isValidHttpUrl(value) {
-  if (value === '') return true
-  if (typeof value !== 'string') return false
-
-  try {
-    const url = new URL(value)
-    return url.protocol === 'http:' || url.protocol === 'https:'
-  } catch {
-    return false
-  }
+  return trimFields(payload, ['name', 'formUrl', 'imageUrl'])
 }
 
 function validateSportPayload(payload, partial = false) {
-  if (!partial && (typeof payload.name !== 'string' || !payload.name)) return 'name is required'
-  if (Object.prototype.hasOwnProperty.call(payload, 'name') && (typeof payload.name !== 'string' || !payload.name)) return 'name is required'
-  if (Object.prototype.hasOwnProperty.call(payload, 'formUrl') && !isValidHttpUrl(payload.formUrl)) return 'formUrl must be a valid HTTP or HTTPS URL'
-  if (Object.prototype.hasOwnProperty.call(payload, 'imageUrl') && !isValidHttpUrl(payload.imageUrl)) return 'imageUrl must be a valid HTTP or HTTPS URL'
-  if (Object.prototype.hasOwnProperty.call(payload, 'isActive') && typeof payload.isActive !== 'boolean') return 'isActive must be a boolean'
-  if (Object.prototype.hasOwnProperty.call(payload, 'order') && (typeof payload.order !== 'number' || !Number.isFinite(payload.order))) return 'order must be a number'
+  if ((!partial || has(payload, 'name')) && (typeof payload.name !== 'string' || !payload.name)) return 'name is required'
+  if (has(payload, 'formUrl') && !isValidHttpUrl(payload.formUrl)) return 'formUrl must be a valid HTTP or HTTPS URL'
+  if (has(payload, 'imageUrl') && !isValidHttpUrl(payload.imageUrl)) return 'imageUrl must be a valid HTTP or HTTPS URL'
+  if (has(payload, 'isActive') && typeof payload.isActive !== 'boolean') return 'isActive must be a boolean'
+  if (has(payload, 'order') && !isFiniteNumber(payload.order)) return 'order must be a number'
   return null
 }
 
-function isValidationError(error) {
-  return error?.name === 'ValidationError' || error?.name === 'CastError' || error?.code === 11000
-}
+const validateSportRequest = createRequestValidator({
+  entity: 'sport',
+  fields: sportFields,
+  normalize: normalizeSportPayload,
+  validate: validateSportPayload,
+  payloadKey: 'sportPayload',
+})
 
-function validateSportRequest(req, res, next) {
-  if (!isPlainObject(req.body)) return res.status(400).json({ message: 'Invalid sport data' })
-
-  const payload = normalizeSportPayload(pickFields(req.body, sportFields))
-  if (req.method === 'PATCH' && !Object.keys(payload).length) return res.status(400).json({ message: 'Invalid sport data' })
-
-  const validationMessage = validateSportPayload(payload, req.method === 'PATCH')
-  if (validationMessage) return res.status(400).json({ message: 'Invalid sport data', errors: { sport: validationMessage } })
-
-  req.sportPayload = payload
-  return next()
-}
-
+// Mounted on both /api/sports and /api/sports/admin; only the admin route runs requireAuth,
+// so req.admin is what decides whether inactive sports are included.
 async function listSports(req, res) {
-  const sports = await Sport.find().sort({ order: 1, name: 1, _id: 1 }).lean()
+  const filter = req.admin ? {} : { isActive: true }
+  const sports = await Sport.find(filter).sort({ order: 1, name: 1, _id: 1 }).limit(LIST_LIMIT).lean()
   return res.json({ sports })
 }
 

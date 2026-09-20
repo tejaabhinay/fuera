@@ -2,8 +2,6 @@ const crypto = require('node:crypto')
 const mongoose = require('mongoose')
 const Registration = require('../models/Registration')
 
-const memoryRegistrations = []
-
 function createRegistrationId() {
   return `FUERA-${crypto.randomBytes(3).toString('hex').toUpperCase()}`
 }
@@ -13,18 +11,19 @@ function isDatabaseReady() {
 }
 
 async function saveRegistration(data) {
+  if (!isDatabaseReady()) {
+    const error = new Error('Database unavailable')
+    error.code = 'DATABASE_UNAVAILABLE'
+    throw error
+  }
+
   const registration = {
     registrationId: createRegistrationId(),
     ...data,
     createdAt: new Date(),
   }
 
-  if (isDatabaseReady()) {
-    return Registration.create(registration)
-  }
-
-  memoryRegistrations.push(registration)
-  return registration
+  return Registration.create(registration)
 }
 
 module.exports = { saveRegistration }

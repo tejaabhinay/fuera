@@ -2,9 +2,13 @@ function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
+function has(payload, field) {
+  return Object.prototype.hasOwnProperty.call(payload, field)
+}
+
 function pickFields(body, fields) {
   return fields.reduce((payload, field) => {
-    if (Object.prototype.hasOwnProperty.call(body, field)) payload[field] = body[field]
+    if (has(body, field)) payload[field] = body[field]
     return payload
   }, {})
 }
@@ -33,9 +37,14 @@ function isValidDateValue(value) {
   return !Number.isNaN(new Date(value).getTime())
 }
 
+// Shared by every content model: an empty string clears the field, anything else must be http(s).
 function isValidHttpUrl(value) {
   if (value === '') return true
-  if (typeof value !== 'string') return false
+  return isRequiredHttpUrl(value)
+}
+
+function isRequiredHttpUrl(value) {
+  if (typeof value !== 'string' || !value) return false
 
   try {
     const url = new URL(value)
@@ -47,6 +56,14 @@ function isValidHttpUrl(value) {
 
 function isOptionalNumber(value) {
   return value === null || (typeof value === 'number' && Number.isFinite(value))
+}
+
+function isFiniteNumber(value) {
+  return typeof value === 'number' && Number.isFinite(value)
+}
+
+function isValidationError(error) {
+  return error?.name === 'ValidationError' || error?.name === 'CastError'
 }
 
 function getValidationDetails(error) {
@@ -62,13 +79,40 @@ function sendValidationError(res, entity, error) {
   return res.status(400).json(response)
 }
 
+// Every content controller validates the same way: reject non-objects, pick the known
+// fields, reject empty PATCH bodies, then run the model-specific rules.
+function createRequestValidator({ entity, fields, normalize, validate, payloadKey }) {
+  return (req, res, next) => {
+    if (!isPlainObject(req.body)) return res.status(400).json({ message: `Invalid ${entity} data` })
+
+    const payload = normalize(pickFields(req.body, fields))
+    if (req.method === 'PATCH' && !Object.keys(payload).length) {
+      return res.status(400).json({ message: `Invalid ${entity} data` })
+    }
+
+    const validationMessage = validate(payload, req.method === 'PATCH')
+    if (validationMessage) {
+      return res.status(400).json({ message: `Invalid ${entity} data`, errors: { [payloadKey]: validationMessage } })
+    }
+
+    req[payloadKey] = payload
+    return next()
+  }
+}
+
 module.exports = {
   isPlainObject,
+  has,
   pickFields,
+  trimFields,
   normalizeFixturePayload,
   normalizeTimelinePayload,
   isValidDateValue,
   isValidHttpUrl,
+  isRequiredHttpUrl,
   isOptionalNumber,
+  isFiniteNumber,
+  isValidationError,
   sendValidationError,
+  createRequestValidator,
 }

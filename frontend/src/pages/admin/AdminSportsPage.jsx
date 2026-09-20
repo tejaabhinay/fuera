@@ -17,7 +17,7 @@ export default function AdminSportsPage() {
 
   useEffect(() => {
     let active = true
-    apiRequest('/api/sports')
+    apiRequest('/api/sports/admin')
       .then((data) => { if (active) setSports(data?.sports || []) })
       .catch((requestError) => { if (active) setError(getApiErrorMessage(requestError, 'Unable to load sports. Please try again.')) })
       .finally(() => { if (active) setLoading(false) })

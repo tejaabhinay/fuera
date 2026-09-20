@@ -9,7 +9,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     let active = true
-    Promise.all([apiRequest('/api/fixtures'), apiRequest('/api/timeline/admin'), apiRequest('/api/sports')])
+    Promise.all([apiRequest('/api/fixtures'), apiRequest('/api/timeline/admin'), apiRequest('/api/sports/admin')])
       .then(([fixtureData, timelineData, sportData]) => {
         if (!active) return
         const fixtures = fixtureData?.fixtures || []
@@ -49,9 +49,9 @@ export default function AdminDashboardPage() {
         <StatCard label="Total fixtures" value={loading ? '…' : stats?.totalFixtures ?? '—'} detail="Published schedule" />
         <StatCard label="Upcoming" value={loading ? '…' : stats?.upcomingFixtures ?? '—'} detail="Status: upcoming" />
         <StatCard label="Completed" value={loading ? '…' : stats?.completedFixtures ?? '—'} detail="Status: completed" />
-        <StatCard label="Timeline events" value={loading ? '…' : stats?.timelineEvents ?? '—'} detail="All admin events" />
-        <StatCard label="Homepage dates" value={loading ? '…' : stats?.timelineEvents ?? '—'} detail="Visible on homepage" />
+        <StatCard label="Timeline events" value={loading ? '…' : stats?.timelineEvents ?? '—'} detail="Visible on homepage" />
         <StatCard label="Sports" value={loading ? '…' : stats?.totalSports ?? '—'} detail={loading ? 'Registration setup' : `${stats?.activeSports ?? 0} active`} />
+        <StatCard label="Inactive sports" value={loading ? '…' : (stats?.totalSports ?? 0) - (stats?.activeSports ?? 0)} detail="Hidden from the homepage" />
       </section>
 
       <section className="admin-quick-links" aria-labelledby="quick-links-title">

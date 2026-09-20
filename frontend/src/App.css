@@ -1,8 +1,10 @@
 .site-shell { width: 100%; max-width: 100vw; overflow-x: clip; background: var(--ink); }
-.section-wrap, .site-header { width: calc(100vw - 36px); max-width: calc(100% - 36px); margin-inline: auto; }
+.section-wrap, .site-header__inner { width: calc(100vw - 36px); max-width: calc(100% - 36px); margin-inline: auto; }
 
 /* Mobile-first foundation */
-.site-header { position: absolute; z-index: 10; top: 0; left: 50%; display: flex; align-items: center; justify-content: space-between; min-width: 0; padding-top: 19px; transform: translateX(-50%); }
+.site-header { position: fixed; z-index: var(--z-header); top: 0; left: 0; width: 100%; transition: background var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out); border-bottom: 1px solid transparent; }
+.site-header__inner { position: relative; display: flex; align-items: center; justify-content: space-between; min-width: 0; padding-top: 19px; padding-bottom: 15px; }
+.site-header.is-scrolled { border-bottom-color: var(--line-faint); background: rgba(16, 23, 25, 0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .nav-brand { display: flex; flex: 1 1 auto; align-items: center; min-width: 0; }
 .public-brand { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; gap: 5px; }
 .brand-lockup { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
@@ -17,13 +19,10 @@
 .main-navigation a { transition: color .2s ease; }
 .main-navigation a:hover, .main-navigation a:focus-visible { color: var(--paper); }
 .arrow-icon { width: 17px; height: 17px; flex: 0 0 auto; }
-.menu-toggle { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 10px; margin-left: auto; padding: 8px 0; border: 0; color: var(--paper); background: transparent; font: 10px/1 var(--mono); text-transform: uppercase; }
-.menu-lines { display: flex; width: 23px; flex-direction: column; gap: 5px; }
-.menu-lines i { display: block; height: 1px; background: var(--orange); transition: transform .2s ease; }
-.menu-toggle.is-open .menu-lines i:first-child { transform: translateY(3px) rotate(45deg); }
-.menu-toggle.is-open .menu-lines i:last-child { transform: translateY(-3px) rotate(-45deg); }
+.menu-toggle { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: flex-end; gap: 9px; min-height: 44px; margin-left: auto; padding: 8px 0 8px 12px; border: 0; color: var(--paper); background: transparent; font: 700 10px/1 var(--mono); letter-spacing: var(--track-label); text-transform: uppercase; cursor: pointer; }
+.menu-toggle svg { color: var(--orange); }
 
-.hero { position: relative; width: 100%; max-width: 100vw; min-height: max(640px, 100svh); display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; overflow: clip; padding: 100px 18px 66px; isolation: isolate; background: radial-gradient(circle at 50% 50%, #293437 0, var(--ink) 59%); }
+.hero { position: relative; width: 100%; max-width: 100vw; min-height: max(640px, 100svh); display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: clip; padding: 92px 14px 64px; isolation: isolate; background: radial-gradient(circle at 50% 50%, #293437 0, var(--ink) 59%); }
 .hero-grid { position: absolute; inset: 0; z-index: -1; opacity: .25; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 100% 82px, 90px 100%; mask-image: linear-gradient(to bottom, transparent, black 18%, black 80%, transparent); }
 .hero::before { content: ''; position: absolute; z-index: -1; inset: 20% 8% 10%; background: linear-gradient(90deg, transparent, rgba(255,90,40,.08), transparent); filter: blur(45px); pointer-events: none; }
 .hero-content { position: relative; z-index: 3; justify-self: center; width: min(100%, 420px); min-width: 0; max-width: calc(100vw - 36px); margin: -2vh auto 0; text-align: center; }
@@ -37,32 +36,11 @@
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 48px; padding: 15px 18px; text-transform: uppercase; font: 700 9px/1 var(--mono); letter-spacing: .07em; transition: gap .25s ease, background .25s ease, color .25s ease; }
 .button:hover { gap: 28px; }
 .button-primary { color: var(--ink); background: var(--orange); }
-.hero-content .button-primary { margin-top: 16px; }
 .button-primary:hover { background: var(--paper); }
 .button-primary:active { transform: translateY(1px); }
-.hero-sports { position: absolute; inset: 0; z-index: 1; pointer-events: none; user-select: none; }
-.hero-sport { position: absolute; display: block; width: 80px; height: auto; opacity: .72; object-fit: contain; animation: hero-sport-float 8s ease-in-out infinite; }
-.hero-sport--light { opacity: .42; filter: brightness(0) invert(1); }
-.hero-sport--football { top: 23%; left: -44px; width: clamp(130px, 38vw, 155px); animation-delay: -.8s; }
-.hero-sport--cricket { right: -42px; bottom: 2%; width: clamp(130px, 38vw, 155px); animation-delay: -1.5s; }
-.hero-sport--badminton { top: 8%; left: 6%; width: 76px; animation-delay: -2.4s; }
-.hero-sport--basketball { top: 10%; right: 7%; width: 80px; animation-delay: -4.1s; }
-.hero-sport--carrom { top: 35%; left: -12px; width: 82px; animation-delay: -3.2s; }
-.hero-sport--chess { top: 38%; right: -10px; width: 74px; animation-delay: -5.3s; }
-.hero-sport--handball { bottom: 17%; left: 3%; width: 88px; animation-delay: -1.9s; }
-.hero-sport--kabaddi { right: -10px; bottom: 25%; width: 118px; animation-delay: -3.8s; }
-.hero-sport--table-tennis { bottom: 5%; left: 16%; width: 72px; animation-delay: -5.8s; }
-.hero-sport--tennis { right: 20%; bottom: 8%; width: 68px; animation-delay: -6.4s; }
-.hero-sport--throwball { bottom: 15%; left: 50%; width: 62px; transform: translateX(-50%); }
-@keyframes hero-sport-float {
-  0%, 100% { margin-top: 0; }
-  50% { margin-top: -8px; }
-}
 .scroll-prompt { position: absolute; bottom: 23px; left: 18px; display: flex; align-items: center; gap: 14px; color: rgba(239,236,229,.58); font: 8px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .scroll-prompt i { position: relative; display: block; width: 30px; height: 1px; background: var(--orange); }
 .scroll-prompt i::after { content: ''; position: absolute; top: -3px; right: 0; width: 6px; height: 6px; border-top: 1px solid var(--orange); border-right: 1px solid var(--orange); transform: rotate(45deg); }
-.hero-index { position: absolute; right: 18px; bottom: 23px; color: rgba(239,236,229,.58); font: 9px/1 var(--mono); letter-spacing: .08em; }
-.hero-index span { margin-inline: 6px; color: var(--orange); }
 
 .section-kicker { display: flex; gap: 14px; color: var(--muted); font: 9px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; }
 .section-kicker span:first-child { color: var(--orange); }
@@ -73,15 +51,16 @@
 .previous-editions__header { display: flex; flex-direction: column; gap: 28px; margin-bottom: 38px; }
 .previous-editions__intro { max-width: 300px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
 .photo-marquee { width: 100vw; margin-left: calc(50% - 50vw); overflow: hidden; padding: 0 clamp(18px, 4vw, 64px); }
-.photo-marquee__track { display: flex; width: max-content; animation: photo-marquee 38s linear infinite; will-change: transform; }
+.photo-marquee__track { --marquee-offset: 0px; display: flex; width: max-content; cursor: grab; animation: photo-marquee 38s linear infinite; will-change: transform; touch-action: pan-y; user-select: none; }
+.photo-marquee__track.is-dragging { cursor: grabbing; animation-play-state: paused; }
 .photo-marquee__group { display: flex; flex: 0 0 auto; gap: clamp(14px, 2vw, 24px); padding-right: clamp(14px, 2vw, 24px); }
 .photo-marquee__item { flex: 0 0 clamp(260px, 31vw, 480px); margin: 0; }
 .photo-marquee__image-wrap { aspect-ratio: 1.55 / 1; overflow: hidden; border: 1px solid rgba(239,236,229,.72); border-radius: 9px; background: var(--ink-soft); }
 .photo-marquee__image-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .photo-marquee__image-fallback { display: grid; width: 100%; height: 100%; place-items: center; color: var(--muted); background: var(--ink-soft); font: 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 @keyframes photo-marquee {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
+  from { transform: translate3d(var(--marquee-offset), 0, 0); }
+  to { transform: translate3d(calc(-50% + var(--marquee-offset)), 0, 0); }
 }
 .previous-editions__note { margin: 24px 0 0; color: var(--muted); font: 9px/1.5 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
 
@@ -95,8 +74,12 @@
 .event-card:hover .event-image, .event-card:focus-within .event-image { transform: scale(1.06); }
 .event-image-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,90,40,.18), transparent 50%); pointer-events: none; }
 .event-tag { position: absolute; top: 12px; left: 12px; color: var(--ink); font: 700 9px/1 var(--mono); pointer-events: none; }
-.event-copy { padding-top: 13px; transition: transform .25s ease; }
-.event-card:hover .event-copy, .event-card:focus-within .event-copy { transform: translateX(4px); }
+/* Do NOT put a transform on .event-copy. A transformed element becomes the
+   containing block for absolutely positioned descendants, which collapsed the
+   card-wide click overlay (.event-card__action::after, inset: 0) down to just
+   this block the moment the card was hovered - so the artwork was never
+   clickable. The card itself already lifts on hover, which reads the same. */
+.event-copy { padding-top: 13px; transition: border-color .25s ease, background .25s ease; }
 .event-copy h3 { margin: 0 0 7px; color: var(--paper); font: 700 23px/.95 var(--display); letter-spacing: -.01em; text-transform: uppercase; overflow-wrap: anywhere; }
 .event-copy p { max-width: 220px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
 .sports-feedback { min-height: 120px; margin: 0; padding: 35px 0; color: var(--muted); font: 11px/1.6 var(--mono); letter-spacing: .04em; }
@@ -126,8 +109,8 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
 /* Tablet */
 @media (min-width: 571px) and (max-width: 900px) {
-  .section-wrap, .site-header { width: min(calc(100vw - 40px), 680px); max-width: calc(100% - 40px); }
-  .site-header { padding-top: 21px; }
+  .section-wrap, .site-header__inner { width: min(calc(100vw - 40px), 680px); max-width: calc(100% - 40px); }
+  .site-header__inner { padding-top: 21px; }
   .nav-brand .brand-lockup { gap: 8px; }
   .nav-brand .brand-lockup__fuera { width: clamp(108px, 14vw, 120px); }
   .nav-brand .brand-lockup__sastra { width: clamp(62px, 8vw, 72px); }
@@ -137,17 +120,6 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .hero-content { max-width: 550px; }
   .hero-wordmark { width: min(100%, 390px); }
   .hero h1 { font-size: clamp(66px, 10vw, 92px); }
-  .hero-sport--football { top: 24%; left: -38px; width: 175px; }
-  .hero-sport--cricket { right: -34px; bottom: 4%; width: 175px; }
-  .hero-sport--badminton { top: 8%; left: 4%; width: 100px; }
-  .hero-sport--basketball { top: 10%; right: 5%; width: 104px; }
-  .hero-sport--carrom { top: 37%; left: -14px; width: 105px; }
-  .hero-sport--chess { top: 39%; right: -12px; width: 98px; }
-  .hero-sport--handball { bottom: 18%; left: 3%; width: 108px; }
-  .hero-sport--kabaddi { right: -12px; bottom: 26%; width: 145px; }
-  .hero-sport--table-tennis { bottom: 6%; left: 17%; width: 92px; }
-  .hero-sport--tennis { right: 19%; bottom: 8%; width: 88px; }
-  .hero-sport--throwball { bottom: 15%; width: 76px; }
   .previous-editions { padding-top: 76px; padding-bottom: 84px; }
   .events { padding-top: 76px; padding-bottom: 84px; }
   .events-grid { gap: 42px 14px; }
@@ -158,8 +130,8 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
 /* Desktop */
 @media (min-width: 901px) {
-  .section-wrap, .site-header { width: min(calc(100vw - 64px), 1360px); max-width: calc(100% - 64px); }
-  .site-header { padding-top: 27px; }
+  .section-wrap, .site-header__inner { width: min(calc(100vw - 64px), 1360px); max-width: calc(100% - 64px); }
+  .site-header__inner { padding-top: 27px; }
   .wordmark { width: 97px; }
   .nav-brand .brand-lockup { gap: clamp(9px, 1vw, 14px); }
   .nav-brand .brand-lockup__fuera { width: clamp(120px, 9vw, 150px); }
@@ -176,21 +148,8 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .mobile-break { display: none; }
   .button { gap: 27px; padding: 16px 20px; font-size: 10px; }
   .button:hover { gap: 37px; }
-  .hero-sport--football { top: 15%; left: -24px; width: 245px; }
-  .hero-sport--cricket { right: -22px; bottom: 5%; width: 245px; }
-  .hero-sport--badminton { top: 8%; left: 20%; width: 145px; }
-  .hero-sport--basketball { top: 10%; right: 20%; width: 145px; }
-  .hero-sport--carrom { top: 42%; left: -16px; width: 150px; }
-  .hero-sport--chess { top: 42%; right: -14px; width: 136px; }
-  .hero-sport--handball { bottom: 20%; left: 12%; width: 155px; }
-  .hero-sport--kabaddi { right: 8%; bottom: 20%; width: 180px; }
-  .hero-sport--table-tennis { bottom: 7%; left: 32%; width: 115px; }
-  .hero-sport--tennis { right: 28%; bottom: 5%; width: 115px; }
-  .hero-sport--throwball { bottom: 17%; width: 95px; }
   .scroll-prompt { bottom: 33px; left: 32px; gap: 18px; font-size: 9px; }
   .scroll-prompt i { width: 35px; }
-  .hero-index { right: 32px; bottom: 33px; font-size: 10px; }
-  .hero-index span { margin-inline: 7px; }
   .section-kicker { gap: 16px; font-size: 10px; }
   .display-label { margin-top: 42px; font-size: 12px; }
   .previous-editions { padding-top: 100px; padding-bottom: 108px; }
@@ -227,17 +186,6 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .hero h1 { min-height: calc(3 * .91em); font-size: clamp(50px, 15vw, 64px); line-height: .91; letter-spacing: -.035em; }
   .department-contact { gap: 7px; }
   .department-contact > .department-contact__name { font-size: 25px; }
-  .hero-sport--badminton { top: 7%; left: -5px; width: 58px; }
-  .hero-sport--basketball { top: 7%; right: -5px; width: 60px; }
-  .hero-sport--football { top: 30%; left: -78px; width: 108px; }
-  .hero-sport--cricket { right: -76px; bottom: 1%; width: 108px; }
-  .hero-sport--carrom { top: 46%; left: -42px; width: 58px; }
-  .hero-sport--chess { top: 44%; right: -34px; width: 56px; }
-  .hero-sport--handball { bottom: 22%; left: -32px; width: 66px; }
-  .hero-sport--kabaddi { right: -28px; bottom: 23%; width: 82px; }
-  .hero-sport--table-tennis { bottom: 5%; left: 18%; width: 48px; }
-  .hero-sport--tennis { right: 18%; bottom: 5%; width: 48px; }
-  .hero-sport--throwball { bottom: 13%; width: 42px; }
 }
 
 /* iPhone-sized screens: keep the complete lockup readable while the sports
@@ -259,43 +207,20 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
     height: 28px;
   }
 
-  .hero-sport--badminton { left: 8px; width: 58px; }
-  .hero-sport--basketball { right: 8px; width: 60px; }
-  .hero-sport--football { left: -12px; width: 90px; }
-  .hero-sport--cricket { right: 2px; width: 92px; }
-  .hero-sport--carrom { left: 2px; width: 64px; }
-  .hero-sport--chess { right: 2px; width: 62px; }
-  .hero-sport--handball { left: 2px; width: 70px; }
-  .hero-sport--kabaddi { right: 2px; width: 88px; }
 }
 
 @media (max-width: 380px) {
-  .hero-sport--badminton { left: 4px; width: 52px; }
-  .hero-sport--basketball { right: 4px; width: 54px; }
-  .hero-sport--football { left: -6px; width: 82px; }
-  .hero-sport--cricket { right: 2px; width: 84px; }
-  .hero-sport--carrom { left: 2px; width: 56px; }
-  .hero-sport--chess { right: 2px; width: 54px; }
-  .hero-sport--handball { left: 2px; width: 60px; }
-  .hero-sport--kabaddi { right: 2px; width: 78px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  .hero-sport { animation: none; }
   .photo-marquee__track { animation: none; }
 }
 
 /* Fixtures page */
 .fixtures-main { padding-bottom: 90px; }
-.fixtures-intro { padding-bottom: 36px; border-bottom: 1px solid var(--line); text-align: center; }
-.fixtures-intro .section-kicker { justify-content: center; }
-.fixtures-intro h1 { margin: 20px 0 14px; color: var(--paper); font: 800 clamp(46px, 15vw, 92px)/.86 var(--display); letter-spacing: -.03em; text-transform: uppercase; }
-.fixtures-intro h1 em { color: var(--orange); font-style: normal; }
-.fixtures-intro__copy { max-width: 420px; margin: 0 auto; color: var(--muted); font-size: 13px; line-height: 1.6; }
 
-.fixtures-select { display: flex; justify-content: center; padding: 34px 0; }
 .sport-selector { width: min(100%, 360px); padding: 20px; border: 1px solid var(--line); background: var(--ink-soft); }
 .sport-selector__label { display: block; margin-bottom: 12px; color: var(--orange); font: 700 9px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .sport-selector__control { position: relative; }
@@ -305,6 +230,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 .sport-selector__chevron { position: absolute; top: 50%; right: 14px; width: 12px; height: 12px; color: var(--orange); pointer-events: none; transform: translateY(-50%) rotate(90deg); }
 
 .fixtures-board { padding-top: 8px; }
+.fixtures-intro { padding-bottom: var(--space-8); }
 .bracket-board-heading h2 { margin: 0; color: var(--paper); font: 700 26px/1 var(--display); letter-spacing: -.01em; text-transform: uppercase; }
 .bracket-board-heading h2 span { margin-left: 8px; color: var(--muted); font: 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 .bracket-board-heading p { margin: 6px 0 26px; color: var(--muted); font: 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
@@ -332,12 +258,6 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 .match-card__details span { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; }
 .match-card__details b { color: var(--muted); font-size: 8px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; }
 
-.fixtures-empty { max-width: 620px; margin: 0 auto; padding: 86px 0 110px; text-align: center; }
-.fixtures-empty__index { margin: 0 0 24px; color: var(--orange); font: 700 10px/1 var(--mono); letter-spacing: .12em; }
-.fixtures-empty h2 { margin: 14px 0; color: var(--paper); font: 800 clamp(40px, 12vw, 64px)/.9 var(--display); text-transform: uppercase; }
-.fixtures-empty h2 em { color: var(--orange); font-style: normal; }
-.fixtures-empty p:last-child { max-width: 360px; margin: 0 auto; color: var(--muted); font-size: 13px; line-height: 1.6; }
-
 .public-fixture-list { display: grid; gap: 50px; }
 .public-fixture-board { min-width: 0; }
 
@@ -362,16 +282,9 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
 @media (max-width: 570px) {
   .public-brand { gap: 4px; }
-  .fixtures-intro h1 { width: min(280px, 100%); margin-inline: auto; font-size: clamp(40px, 13vw, 52px); }
-  .fixtures-intro__copy { width: min(280px, 100%); }
-  .fixtures-intro h1 em, .fixtures-empty h2 em { display: block; }
-  .fixtures-empty { width: 100%; padding: 64px 0 84px; }
-  .fixtures-empty h2 { width: min(280px, 100%); margin-inline: auto; font-size: clamp(36px, 10vw, 42px); }
-  .fixtures-empty p:last-child { width: min(280px, 100%); }
 }
 
 @media (min-width: 571px) {
-  .fixtures-intro__copy { max-width: 420px; }
   .bracket-board { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 16px; }
   .timeline-section { padding-top: 100px; padding-bottom: 100px; }
   .timeline-heading { flex-direction: row; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 52px; }
@@ -380,7 +293,6 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 }
 
 @media (min-width: 901px) {
-  .fixtures-select { padding: 46px 0; }
   .bracket-board-heading h2 { font-size: 32px; }
   .bracket-board { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
   .timeline-heading h2 { font-size: clamp(80px, 8vw, 120px); }
@@ -480,22 +392,24 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   filter: none;
 }
 
-/* Keep the home-page lockup centered while the navigation stays usable. */
-.site-header--home .nav-brand {
+/* Centre the SASTRA mark on every page, not just the home page, now that the
+   header carries it alone. Absolute positioning keeps it centred on the header
+   rather than on whatever space the navigation leaves behind. */
+.site-header .site-header__inner .nav-brand {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.site-header--home .main-navigation {
+.site-header .main-navigation {
   margin-left: auto;
 }
 
-.site-header--home .public-brand {
+.site-header .public-brand {
   align-items: center;
 }
 
-.site-header--home .brand-lockup-wrapper {
+.site-header .brand-lockup-wrapper {
   width: max-content;
   justify-content: center;
   transform-origin: center;
@@ -728,18 +642,6 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   transform: translateY(-2px);
 }
 
-.hero-sport {
-  will-change: margin-top;
-}
-
-.hero-sport:not(.hero-sport--light) {
-  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.18));
-}
-
-.hero-sport--light {
-  filter: brightness(0) invert(1) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
-}
-
 .event-image-wrap {
   border-radius: 5px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
@@ -782,6 +684,96 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .hero-fest-label::before,
   .hero-fest-label::after {
     width: 12px;
+  }
+}
+
+/* Editorial section accents and interaction polish */
+
+.previous-editions__header,
+.events-heading-row,
+.timeline-heading {
+  position: relative;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.previous-editions__header::before,
+.events-heading-row::before,
+.timeline-heading::before,
+.contacts-section > div:first-child::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 46px;
+  height: 2px;
+  background: var(--orange);
+}
+
+.contacts-section > div:first-child {
+  position: relative;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.event-copy {
+  padding: 15px 12px 18px;
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  background: rgba(24, 33, 35, 0.34);
+}
+
+.event-card:hover .event-copy,
+.event-card:focus-within .event-copy {
+  border-color: rgba(255, 90, 40, 0.56);
+}
+
+.photo-marquee__item {
+  transition: transform 0.35s ease;
+}
+
+.photo-marquee__item:hover {
+  transform: translateY(-5px);
+}
+
+.photo-marquee__image-wrap {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+}
+
+.photo-marquee__image-wrap img {
+  transition: transform 0.6s ease;
+}
+
+.photo-marquee__item:hover .photo-marquee__image-wrap img {
+  transform: scale(1.04);
+}
+
+.timeline-item {
+  transition: padding-left 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.timeline-item:hover {
+  padding-left: 8px;
+  border-color: rgba(255, 90, 40, 0.62);
+  background: linear-gradient(90deg, rgba(255, 90, 40, 0.08), transparent 42%);
+}
+
+.timeline-item h3 {
+  transition: color 0.25s ease;
+}
+
+.timeline-item:hover h3 {
+  color: var(--orange);
+}
+
+@media (max-width: 570px) {
+  .event-copy {
+    padding: 13px 10px 16px;
+  }
+
+  .timeline-item:hover {
+    padding-left: 4px;
   }
 }
 
@@ -985,12 +977,61 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 /* Sport rules gate */
 
 .event-card--interactive {
+  position: relative;
   cursor: pointer;
 }
 
-.event-card--interactive:focus-visible {
+/* The card action is a real <button> that covers the card through this pseudo-element.
+   That keeps the whole card clickable while the captains' tel: links stay siblings of
+   the button rather than interactive children of it. */
+.event-card__action {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.event-card__action::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 6px;
+}
+
+.event-card__action:focus-visible {
+  outline: none;
+}
+
+.event-card__action:focus-visible::after {
   outline: 2px solid var(--orange);
   outline-offset: 6px;
+}
+
+/* Lift only the tel: links above the card-wide click target. Raising the whole
+   captains block left a dead strip at the bottom of the card where nothing
+   opened the rules; now every part of the card opens them except the phone
+   numbers themselves, which still dial. */
+.sport-in-charge__person a {
+  position: relative;
+  z-index: 2;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .sport-rules-backdrop {
@@ -1150,4 +1191,1361 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
   .sport-rules-modal__list {
     font-size: 13px;
   }
+}
+
+/* ==========================================================================
+   FUERA 26-27 broadcast layer. Mobile-first; wide-screen refinements grouped
+   in the queries at the end of this file.
+   ========================================================================== */
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  color: var(--paper);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  transition: color var(--dur-base) var(--ease-out), gap var(--dur-base) var(--ease-out);
+}
+.text-link:hover { color: var(--orange); gap: var(--space-3); }
+
+.nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  border: 0;
+  background: rgba(16, 23, 25, 0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.main-navigation a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+.main-navigation a span { position: relative; }
+.main-navigation a span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.main-navigation a:hover span::after,
+.main-navigation a:focus-visible span::after { transform: scaleX(1); }
+
+/* --- Hero --------------------------------------------------------------- */
+.hero { padding-top: 116px; }
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+.button-ghost {
+  position: relative;
+  border: 1px solid var(--line-strong);
+  color: var(--paper);
+  background: transparent;
+}
+.button-ghost:hover { border-color: var(--orange); color: var(--orange); background: transparent; }
+.button__live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--status-live);
+  animation: live-pulse 2s var(--ease-out) infinite;
+}
+
+.scroll-prompt {
+  position: absolute;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: 50%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  color: var(--faint);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.scroll-prompt:hover { color: var(--orange); }
+.scroll-prompt svg { color: var(--orange); animation: scroll-nudge 2.4s var(--ease-in-out) infinite; }
+
+@keyframes scroll-nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.75; }
+  50% { transform: translateY(4px); opacity: 1; }
+}
+
+.hero-wordmark,
+.hero-fest-label,
+.hero h1,
+.hero-actions { animation: hero-enter var(--dur-reveal) var(--ease-out) both; }
+.hero-wordmark { animation-delay: 60ms; }
+.hero-fest-label { animation-delay: 160ms; }
+.hero h1 { animation-delay: 230ms; }
+.hero-actions { animation-delay: 340ms; }
+
+@keyframes hero-enter {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.55); }
+  70% { box-shadow: 0 0 0 7px rgba(255, 59, 48, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+}
+
+/* --- Section heading ---------------------------------------------------- */
+.section-heading {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-bottom: var(--section-gap);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+.section-heading::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 46px;
+  height: 2px;
+  background: var(--orange);
+}
+.section-heading__kicker {
+  display: flex;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+  color: var(--muted);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.section-heading__index { color: var(--orange); }
+.section-heading__title {
+  margin: 0;
+  color: var(--paper);
+  font: 800 var(--text-section)/0.84 var(--display);
+  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.section-heading__title em { color: var(--orange); font-style: normal; }
+.section-heading__intro {
+  max-width: 46ch;
+  margin: var(--space-4) 0 0;
+  color: var(--muted);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+/* --- Status pill -------------------------------------------------------- */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 5px var(--space-3);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.status-pill--sm { padding: 4px var(--space-2); }
+.status-pill--live { color: var(--status-live); background: var(--status-live-dim); }
+.status-pill--upcoming { color: var(--status-upcoming); background: var(--status-upcoming-dim); }
+.status-pill--completed { color: var(--status-completed); background: var(--status-completed-dim); }
+.status-pill--off { color: var(--status-off); background: var(--status-off-dim); }
+.status-pill__pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+  animation: live-pulse 2s var(--ease-out) infinite;
+}
+
+/* --- Live now ----------------------------------------------------------- */
+.live-now { padding-top: var(--space-12); padding-bottom: var(--space-2); }
+.live-now__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--line);
+}
+.live-now__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  color: var(--paper);
+  font: 800 var(--text-xl)/1 var(--display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.live-now__dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-pill);
+  background: var(--status-live);
+  animation: live-pulse 2s var(--ease-out) infinite;
+}
+.live-now__count {
+  color: var(--muted);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.live-now__grid { display: grid; gap: var(--space-3); }
+
+.live-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--status-live);
+  border-radius: var(--radius-md);
+  background: linear-gradient(140deg, rgba(255, 59, 48, 0.07), var(--surface-2) 45%);
+}
+.live-card--featured { background: linear-gradient(140deg, rgba(255, 59, 48, 0.1), var(--surface-3) 50%); }
+.live-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.live-card__sport {
+  color: var(--muted-strong);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.live-card__round {
+  margin: 0;
+  color: var(--paper);
+  font: 700 var(--text-sm)/1.3 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.live-card__teams { display: grid; gap: var(--space-2); }
+.live-card__team {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line-faint);
+}
+.live-card__team:last-child { padding-bottom: 0; border-bottom: 0; }
+.live-card__team-name {
+  min-width: 0;
+  color: var(--muted-strong);
+  font: 600 var(--text-md)/1.2 var(--body);
+  overflow-wrap: anywhere;
+}
+.live-card__team.is-leading .live-card__team-name { color: var(--paper); }
+.live-card__score {
+  color: var(--muted-strong);
+  font: 800 var(--text-2xl)/0.9 var(--display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--track-tight);
+}
+.live-card__team.is-leading .live-card__score { color: var(--orange); }
+.live-card__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  color: var(--muted);
+  font: var(--text-xs)/1.3 var(--mono);
+  letter-spacing: 0.04em;
+}
+.live-card__foot svg { flex: 0 0 auto; color: var(--orange); }
+.live-card__foot span { min-width: 0; overflow-wrap: anywhere; }
+
+/* --- Broadcast banner --------------------------------------------------- */
+.broadcast {
+  margin-top: var(--section-y);
+  padding-block: clamp(46px, 8vw, 88px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 18% 50%, rgba(255, 90, 40, 0.14), transparent 55%),
+    var(--surface-1);
+}
+.broadcast__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+  color: var(--orange);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+}
+.broadcast__label-rule { width: 34px; height: 2px; flex: 0 0 auto; background: var(--orange); }
+.broadcast__sport {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+  color: var(--paper);
+  font: 800 var(--text-3xl)/0.9 var(--display);
+  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+}
+.broadcast__round {
+  color: var(--muted);
+  font: 700 var(--text-sm)/1 var(--mono);
+  letter-spacing: var(--track-label);
+}
+.broadcast__matchup {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  padding-block: var(--space-5);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.broadcast__team {
+  min-width: 0;
+  color: var(--paper);
+  font: 700 var(--text-xl)/1.1 var(--display);
+  letter-spacing: var(--track-tight);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.broadcast__versus {
+  color: var(--orange);
+  font: 700 var(--text-xs)/1 var(--mono);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+}
+.broadcast__meta { display: grid; gap: var(--space-4); margin: 0; }
+.broadcast__meta-item { min-width: 0; }
+.broadcast__meta dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  color: var(--muted);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.broadcast__meta dt svg { flex: 0 0 auto; color: var(--orange); }
+.broadcast__meta dd {
+  margin: 0;
+  color: var(--paper);
+  font: 600 var(--text-base)/1.3 var(--body);
+  overflow-wrap: anywhere;
+}
+
+/* --- Results ------------------------------------------------------------ */
+.results { padding-top: var(--section-y); padding-bottom: var(--space-4); }
+.results__grid { display: grid; gap: var(--space-3); }
+.result-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.result-card:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+.result-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.result-card__sport {
+  color: var(--orange);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.result-card__round {
+  color: var(--muted);
+  font: var(--text-xs)/1 var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.result-card__rows { display: grid; gap: var(--space-3); }
+.result-card__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+.result-card__team {
+  min-width: 0;
+  color: var(--muted-strong);
+  font: 600 var(--text-md)/1.2 var(--body);
+  overflow-wrap: anywhere;
+}
+.result-card__row.is-winner .result-card__team { color: var(--paper); font-weight: 700; }
+.result-card__score {
+  color: var(--muted);
+  font: 800 var(--text-2xl)/0.85 var(--display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--track-tight);
+}
+.result-card__row.is-winner .result-card__score { color: var(--orange); }
+.result-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-faint);
+  color: var(--muted);
+  font: 700 var(--text-micro)/1.4 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.result-card__venue { min-width: 0; overflow-wrap: anywhere; }
+
+/* --- Leaderboard --------------------------------------------------------
+   Below 760px the table re-flows into cards. The JSX keeps explicit ARIA
+   roles so the table semantics survive the display override. */
+.leaderboard-section { padding-top: var(--section-y); }
+.leaderboard__table { width: 100%; border-collapse: collapse; }
+.leaderboard__table thead { display: none; }
+.leaderboard__table tbody { display: grid; gap: var(--space-2); }
+.leaderboard__table tr {
+  display: grid;
+  /* Explicit areas: auto-flow scattered the four medal cells across both
+     columns. Rank spans both rows; the medals share one row under the name. */
+  grid-template-columns: auto repeat(4, minmax(0, 1fr));
+  grid-template-areas:
+    'rank dept dept dept dept'
+    'rank gold silver bronze total';
+  gap: var(--space-3) var(--space-2);
+  align-items: center;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+}
+.leaderboard__table tr.is-leader {
+  border-color: rgba(255, 90, 40, 0.42);
+  background: linear-gradient(140deg, rgba(255, 90, 40, 0.1), var(--surface-2) 55%);
+}
+.leaderboard__table td { padding: 0; min-width: 0; }
+.leaderboard__rank { grid-area: rank; padding-right: var(--space-3); }
+.leaderboard__department { grid-area: dept; }
+.leaderboard__medal--gold { grid-area: gold; }
+.leaderboard__medal--silver { grid-area: silver; }
+.leaderboard__medal--bronze { grid-area: bronze; }
+.leaderboard__total { grid-area: total; }
+.leaderboard__rank-value {
+  color: var(--muted);
+  font: 800 var(--text-xl)/1 var(--display);
+  font-variant-numeric: tabular-nums;
+}
+.leaderboard__table tr.is-leader .leaderboard__rank-value { color: var(--orange); }
+.leaderboard__department {
+  color: var(--paper);
+  font: 700 var(--text-md)/1.2 var(--display);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+/* Label above value so four columns still fit at 320px. */
+.leaderboard__medal,
+.leaderboard__total {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  color: var(--muted-strong);
+  font: 700 var(--text-sm)/1 var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+.leaderboard__medal-label {
+  color: var(--muted);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.leaderboard__medal--gold .leaderboard__medal-label { color: #e8b84b; }
+.leaderboard__medal--silver .leaderboard__medal-label { color: #b9c2c4; }
+.leaderboard__medal--bronze .leaderboard__medal-label { color: #c08457; }
+.leaderboard__total { color: var(--paper); }
+
+@media (min-width: 761px) {
+  .leaderboard__table thead { display: table-header-group; }
+  .leaderboard__table tbody { display: table-row-group; }
+  .leaderboard__table tr {
+    display: table-row;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+  .leaderboard__table tr.is-leader { background: none; }
+  .leaderboard__table th {
+    padding: 0 var(--space-4) var(--space-3);
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font: 700 var(--text-micro)/1 var(--mono);
+    letter-spacing: var(--track-label);
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .leaderboard__table td {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--line-faint);
+    vertical-align: middle;
+  }
+  .leaderboard__table tr.is-leader td { background: rgba(255, 90, 40, 0.07); }
+  .leaderboard__table tr.is-leader td:first-child { box-shadow: inset 2px 0 0 var(--orange); }
+  .leaderboard__medal-label { display: none; }
+  .leaderboard__medal-col,
+  .leaderboard__total-col { width: 92px; text-align: center; }
+  .leaderboard__rank-col { width: 92px; }
+  /* These must stay table-cell: `display: block` drops them out of the row and
+     stacks them, which inflated every row to four lines tall. */
+  .leaderboard__medal,
+  .leaderboard__total { display: table-cell; text-align: center; font-size: var(--text-md); }
+  .leaderboard__rank { grid-row: auto; }
+  .leaderboard__department { font-size: var(--text-lg); }
+  .leaderboard__rank-value { font-size: var(--text-2xl); }
+}
+
+/* --- Fixtures: filters -------------------------------------------------- */
+.fixtures-main { padding-top: 104px; }
+.fixtures-filters { margin-bottom: var(--space-8); }
+.filter-bar {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.filter-group { display: grid; gap: var(--space-3); min-width: 0; }
+.filter-group__label {
+  color: var(--muted);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.filter-group__options { display: flex; flex-wrap: wrap; gap: var(--space-2); min-width: 0; }
+/* Long option sets scroll horizontally inside their own row rather than
+   forcing the page sideways. */
+.filter-group__options--scroll {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-inline: calc(-1 * var(--space-4));
+  padding-inline: var(--space-4);
+  padding-bottom: var(--space-2);
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--muted-strong);
+  background: transparent;
+  font: 700 var(--text-xs)/1 var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.filter-chip:hover { color: var(--paper); border-color: var(--line-strong); }
+.filter-chip.is-selected {
+  color: var(--ink);
+  border-color: var(--orange);
+  background: var(--orange);
+}
+.filter-chip__count {
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+  background: rgba(239, 236, 229, 0.1);
+  font-size: var(--text-micro);
+}
+.filter-chip.is-selected .filter-chip__count { background: rgba(16, 23, 25, 0.16); }
+.filter-bar__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--muted);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.filter-bar__reset {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--orange);
+  background: none;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+/* --- Fixtures: schedule ------------------------------------------------- */
+.schedule { display: grid; gap: var(--space-10); }
+.schedule__day { min-width: 0; }
+.schedule__day-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+.schedule__day-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  color: var(--paper);
+  font: 700 var(--text-lg)/1.1 var(--display);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.schedule__today {
+  padding: 4px var(--space-2);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  background: var(--orange);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+}
+.schedule__day-count {
+  color: var(--muted);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.schedule__grid { display: grid; gap: var(--space-3); }
+.fixtures-board__note {
+  margin: var(--space-8) 0 0;
+  color: var(--muted);
+  font: var(--text-xs)/1.5 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --- Fixture card ------------------------------------------------------- */
+.fixture-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.fixture-card:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+.fixture-card--live {
+  border-left: 2px solid var(--status-live);
+  background: linear-gradient(140deg, rgba(255, 59, 48, 0.07), var(--surface-2) 45%);
+}
+.fixture-card--completed { background: var(--surface-1); }
+.fixture-card--cancelled,
+.fixture-card--postponed { opacity: 0.72; }
+.fixture-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.fixture-card__sport {
+  color: var(--orange);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.fixture-card__round {
+  margin: 0;
+  color: var(--muted);
+  font: var(--text-xs)/1.3 var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.fixture-card__teams { display: grid; gap: var(--space-2); }
+.fixture-card__team {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.fixture-card__team-name {
+  min-width: 0;
+  color: var(--paper);
+  font: 600 var(--text-base)/1.25 var(--body);
+  overflow-wrap: anywhere;
+}
+.fixture-card__team.is-leading .fixture-card__team-name { font-weight: 700; }
+.fixture-card__score {
+  color: var(--muted-strong);
+  font: 800 var(--text-lg)/1 var(--display);
+  font-variant-numeric: tabular-nums;
+}
+.fixture-card__team.is-leading .fixture-card__score { color: var(--orange); }
+.fixture-card__versus {
+  color: var(--muted);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+}
+.fixture-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-faint);
+}
+.fixture-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  color: var(--muted);
+  font: 700 var(--text-micro)/1.4 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.fixture-card__meta-item svg { flex: 0 0 auto; color: var(--orange); }
+.fixture-card__meta-item--venue { min-width: 0; overflow-wrap: anywhere; }
+.fixture-card__today { color: var(--orange); }
+
+/* --- State panels and skeletons ----------------------------------------- */
+.state-panel {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  padding: clamp(32px, 7vw, 62px) 0;
+}
+.state-panel--compact { padding-block: var(--space-10); }
+.state-panel__index,
+.state-panel__label {
+  margin: 0;
+  color: var(--orange);
+  font: 700 var(--text-label)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.state-panel__index { color: var(--muted); }
+.state-panel h2,
+.state-panel h3 {
+  margin: 0;
+  color: var(--paper);
+  font: 800 var(--text-2xl)/0.9 var(--display);
+  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+}
+.state-panel h2 em,
+.state-panel h3 em { color: var(--orange); font-style: normal; }
+.state-panel__copy {
+  max-width: 44ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+.fixture-skeleton,
+.events-grid .sport-skeleton { min-width: 0; }
+.fixture-skeleton { display: grid; gap: var(--space-3); }
+.fixture-skeleton__card { height: 168px; border-radius: var(--radius-md); }
+.sport-skeleton { display: grid; gap: var(--space-3); }
+.sport-skeleton__image { aspect-ratio: 0.84 / 1; border-radius: var(--radius-sm); }
+.sport-skeleton__line { height: 14px; border-radius: var(--radius-xs); }
+.sport-skeleton__line--short { width: 55%; }
+.fixture-skeleton__card,
+.sport-skeleton__image,
+.sport-skeleton__line {
+  background: linear-gradient(100deg, var(--surface-1) 30%, var(--surface-3) 50%, var(--surface-1) 70%);
+  background-size: 220% 100%;
+  animation: skeleton-sweep 1.5s var(--ease-in-out) infinite;
+}
+
+@keyframes skeleton-sweep {
+  from { background-position: 180% 0; }
+  to { background-position: -40% 0; }
+}
+
+/* --- Sport card: match-aware strip -------------------------------------- */
+.event-live {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px var(--space-2);
+  border-radius: var(--radius-pill);
+  color: var(--paper);
+  background: var(--status-live);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.event-live__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+  animation: live-pulse 2s var(--ease-out) infinite;
+}
+.event-card[data-live='true'] .event-image-wrap { border-color: var(--status-live); }
+
+.sport-card__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-3) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-faint);
+}
+.sport-card__stat { min-width: 0; }
+.sport-card__stat dt {
+  margin-bottom: 3px;
+  color: var(--muted);
+  font: 700 var(--text-micro)/1 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.sport-card__stat dd {
+  margin: 0;
+  color: var(--paper);
+  font: 700 var(--text-xs)/1.3 var(--mono);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.sport-card__stat--wide { min-width: 0; flex: 1 1 auto; }
+
+/* ==========================================================================
+   Wide-screen refinements
+   ========================================================================== */
+
+@media (min-width: 571px) {
+  .live-now__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .live-now__grid--single { grid-template-columns: minmax(0, 1fr); }
+  .results__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .schedule__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fixture-skeleton { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .broadcast__matchup {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-5);
+  }
+  .broadcast__matchup .broadcast__team:last-child { text-align: right; }
+  .broadcast__meta { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+  .filter-bar { grid-template-columns: minmax(0, 1fr); }
+  .state-panel { justify-items: start; }
+}
+
+@media (min-width: 901px) {
+  /* The full eleven-athlete composition only exists on wide viewports. */
+  .hero { padding-top: 0; }
+  .hero-actions { justify-content: center; gap: var(--space-4); }
+
+  .live-now { padding-top: var(--space-16); }
+  .live-now__title { font-size: var(--text-2xl); }
+  .live-now__grid { grid-template-columns: 1.4fr 1fr 1fr; }
+  .live-now__grid--single { grid-template-columns: minmax(0, 1fr); }
+  .live-card { padding: var(--space-5); gap: var(--space-4); }
+  .live-card--featured { grid-row: span 1; }
+
+  .results__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+  .result-card { padding: var(--space-5); }
+
+  .schedule { gap: var(--space-16); }
+  .schedule__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+  .schedule__day-title { font-size: var(--text-xl); }
+  .fixture-card { padding: var(--space-5); }
+  .fixture-skeleton { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .filter-bar {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-6) var(--space-10);
+    padding-block: var(--space-6);
+  }
+  .filter-group__options--scroll { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .filter-bar__summary { grid-column: 1 / -1; }
+
+  .section-heading {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-10);
+  }
+  .section-heading__main { min-width: 0; }
+  .section-heading__action { flex: 0 0 auto; padding-bottom: var(--space-2); }
+
+  .broadcast__meta { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .broadcast__team { font-size: var(--text-2xl); }
+
+  .fixtures-main { padding-top: 132px; }
+}
+
+/* --- Reduced motion -----------------------------------------------------
+   Decorative motion is removed outright rather than merely shortened; the
+   live indicator keeps a static colour so status is still legible. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-wordmark,
+  .hero-fest-label,
+  .hero h1,
+  .hero-actions {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .scroll-prompt svg,
+  .status-pill__pulse,
+  .live-now__dot,
+  .event-live__dot,
+  .button__live-dot { animation: none; }
+  .fixture-skeleton__card,
+  .sport-skeleton__image,
+  .sport-skeleton__line { animation: none; background: var(--surface-2); }
+  .result-card:hover,
+  .fixture-card:hover { transform: none; }
+  .main-navigation a span::after { transition: none; }
+}
+
+/* --- Landscape phones ---------------------------------------------------
+   A 100svh hero is taller than the viewport when the phone is on its side,
+   so the hero falls back to intrinsic height there. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .hero { min-height: 0; padding-top: 96px; padding-bottom: var(--space-12); }
+  .scroll-prompt { display: none; }
+}
+
+/* Remounting the schedule on a filter change restarts this enter animation. */
+.schedule { animation: schedule-enter var(--dur-base) var(--ease-out) both; }
+
+@keyframes schedule-enter {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schedule { animation: none; }
+}
+
+/* --- Sport card height normalisation ------------------------------------
+   Grid items already stretch to the tallest card in the row, but the inner
+   copy block stopped at its own content height, so a sport with one captain
+   left a gap below its border while a two-captain card filled the row. Making
+   the card a flex column and letting the copy block grow squares them off. */
+.events-grid { grid-auto-rows: 1fr; }
+.event-card { display: flex; flex-direction: column; height: 100%; }
+.event-image-wrap { flex: 0 0 auto; }
+.event-copy { flex: 1 1 auto; }
+
+/* ==========================================================================
+   Hero composition v2
+   Phones/tablets: athletes are two flow rows, so they can never overlap the
+   copy. From 901px the same images become an absolute perimeter.
+   ========================================================================== */
+
+/* The width/height attributes exist for CLS, but the height attribute maps to
+   CSS height. Without this the wordmark rendered at 1.79:1 instead of 5.77:1. */
+.hero-wordmark,
+.hero-sastra { height: auto; }
+
+.hero-wordmark {
+  width: min(100%, 300px);
+  margin: 0 auto var(--space-3);
+}
+
+.hero-sastra {
+  display: block;
+  width: min(62%, 190px);
+  margin: 0 auto var(--space-5);
+  opacity: 0.94;
+}
+
+/* Staggered heights stop the rows reading as a flat strip. */
+
+.hero-content { width: min(100%, 420px); }
+
+/* --- Both CTAs identical -------------------------------------------------
+   The ghost button previously had no surface and stretched to a different
+   height, so the pair read as two unrelated controls. */
+.hero-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  width: 100%;
+  margin-top: var(--space-5);
+}
+.hero-actions .button {
+  width: 100%;
+  min-height: 52px;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+.hero-actions .button > span { min-width: 0; }
+.hero-actions .button:hover { gap: var(--space-2); }
+.hero-actions .button .arrow-icon { width: 14px; flex: 0 0 auto; }
+
+.button-ghost {
+  border-color: var(--line-strong);
+  color: var(--paper);
+  background: var(--surface-raised);
+}
+.button-ghost:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  background: var(--surface-2);
+}
+
+/* The hero carries the branding on the home page, so the header lockup only
+   appears once it has been scrolled past. */
+.site-header--home .nav-brand {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.site-header--home.is-scrolled .nav-brand {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (min-width: 901px) {
+  /* Same images, different composition: an absolute perimeter around the copy. */
+
+  .hero-wordmark { width: min(100%, 420px); }
+  .hero-sastra { width: min(46%, 210px); }
+  .hero-actions { width: min(100%, 420px); margin-inline: auto; }
+}
+
+/* The float lifts each athlete up to 8px, so the flow rows keep more than that
+   in reserve and can never touch the copy at the extreme of the animation. */
+
+/* --- SASTRA badge --------------------------------------------------------
+   The source asset is a JPEG with its own white background, so it cannot be
+   knocked out of the dark hero. Presenting it on a deliberate paper plate
+   reads as an institutional badge instead of a pasted rectangle. */
+.hero-sastra {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto var(--space-5);
+  padding: 7px 12px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+.hero-sastra img {
+  display: block;
+  width: auto;
+  height: clamp(26px, 7vw, 34px);
+  object-fit: contain;
+}
+
+/* Stagger the rows so they read as a composition rather than a strip. */
+
+/* Tighter vertical rhythm so the CTAs stay close to the fold on a small phone. */
+.hero { padding-top: 78px; padding-bottom: 52px; }
+.hero-wordmark { margin-bottom: var(--space-4); }
+.hero-fest-label { margin-bottom: var(--space-3); }
+
+/* Clearance derived from the measured chrome: the header row ends at ~79px and
+   the scroll prompt occupies the bottom ~63px, plus the 8px float and the
+   per-athlete stagger offsets. */
+.hero { padding-top: 104px; padding-bottom: 84px; }
+
+/* The badge has to stay legible: below ~34px the university name turns to mush. */
+.hero-sastra { padding: 8px 14px; }
+.hero-sastra img { height: clamp(34px, 9.5vw, 46px); }
+
+@media (min-width: 901px) {
+  /* Re-stated after the base `display: none`, which appears later in this file
+     and would otherwise keep the wide-only set hidden at every width. */
+
+  /* Measured against the header row rather than eyeballed: at 8%/10% of an
+     860px hero these two sat behind the navigation. */
+}
+
+@media (min-width: 901px) {
+  /* Throwball was centred at the bottom, which is exactly where the CTA pair
+     and the scroll prompt live. Moved into the free lower-left corner. */
+}
+
+/* The perimeter composition needs room either side of the 650px copy column.
+   At 901-1099px there is only ~125px of gutter, which put athletes on the
+   wordmark and the CTAs, so the flow rows hold until 1100px. */
+@media (min-width: 901px) and (max-width: 1099px) {
+  .hero { padding-top: 112px; padding-bottom: 92px; }
+}
+
+@media (min-width: 1100px) {
+  /* At 20% these two closed in on the centred 420px wordmark on narrower
+     desktops; 13% keeps them clear from 1100px all the way up. */
+}
+
+/* --- Lockup hierarchy: SASTRA leads, FUERA is the event mark beneath it --- */
+.hero-sastra {
+  order: 0;
+  margin-bottom: var(--space-4);
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+}
+.hero-sastra img { height: clamp(46px, 13vw, 66px); }
+
+.hero-wordmark {
+  order: 1;
+  width: min(72%, 232px);
+  margin-bottom: var(--space-4);
+}
+
+/* Both sit a little higher now that the row above is tighter. */
+
+/* ==========================================================================
+   Hero athlete scatter
+   Positions derived from the measured glyph bounds of the hero copy, not the
+   full-width block boxes — that is what frees the 78px side gutters the old
+   row layout ignored. `rotate` is used rather than `transform` so it does not
+   fight the float animation, which owns transform.
+   ========================================================================== */
+
+.hero-athletes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-sport {
+  position: absolute;
+  display: block;
+  height: auto;
+  opacity: 0.88;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.22));
+  animation: hero-sport-float 8s ease-in-out infinite;
+}
+
+/* --- Phones: top band, both side gutters, bottom band --------------------- */
+.hero-sport--football     { top: 78px;  left: -6px;   width: 80px; rotate: -5deg; animation-delay: -0.4s; }
+.hero-sport--handball     { top: 50px;  left: 148px;  width: 66px; rotate: 4deg;  animation-delay: -2.1s; }
+.hero-sport--basketball   { top: 84px;  right: 2px;   width: 72px; rotate: 6deg;  animation-delay: -1.3s; }
+.hero-sport--cricket      { top: 196px; left: -8px;   width: 74px; rotate: -3deg; animation-delay: -3.2s; }
+.hero-sport--badminton    { top: 192px; right: -6px;  width: 72px; rotate: 5deg;  animation-delay: -0.9s; }
+.hero-sport--chess        { top: 316px; left: 0;      width: 68px; rotate: 3deg;  animation-delay: -4.5s; }
+.hero-sport--tennis       { top: 306px; right: 2px;   width: 64px; rotate: -4deg; animation-delay: -2.7s; }
+.hero-sport--kabaddi      { top: 408px; left: -12px;  width: 82px; rotate: -2deg; animation-delay: -5.1s; }
+.hero-sport--carrom       { top: 420px; right: -10px; width: 76px; rotate: 4deg;  animation-delay: -1.8s; }
+.hero-sport--throwball    { bottom: 8px;  left: 22px;  width: 46px; rotate: -6deg; animation-delay: -3.9s; }
+.hero-sport--table-tennis { bottom: 8px;  right: 30px; width: 52px; rotate: 5deg;  animation-delay: -6.2s; }
+
+@keyframes hero-sport-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
+}
+
+/* --- Large phone / small tablet: copy is capped at 420px, so the gutters
+       widen on their own. Same anchoring as phones, just larger figures. --- */
+@media (min-width: 571px) {
+  .hero-sport--football     { top: 70px;  width: 104px; }
+  .hero-sport--handball     { top: 46px;  width: 86px; }
+  .hero-sport--basketball   { top: 96px;  width: 94px; }
+  .hero-sport--cricket      { top: 215px; width: 96px; }
+  .hero-sport--badminton    { top: 205px; width: 86px; }
+  .hero-sport--chess        { top: 350px; width: 88px; }
+  .hero-sport--tennis       { top: 330px; width: 76px; }
+  .hero-sport--kabaddi      { top: 452px; width: 106px; }
+  .hero-sport--carrom       { top: 455px; width: 90px; }
+  .hero-sport--throwball    { width: 66px; }
+  .hero-sport--table-tennis { width: 68px; }
+}
+
+/* --- Tablet: four figures per gutter plus two in the bands. Sizes chosen so
+       the stacked bounding boxes leave >25px between neighbours. --- */
+@media (min-width: 768px) {
+  .hero-sport--football     { top: 10%; left: 0;     width: 118px; }
+  .hero-sport--cricket      { top: 32%; left: -2%;   width: 110px; }
+  .hero-sport--chess        { top: 54%; left: 1%;    width: 96px; }
+  .hero-sport--kabaddi      { top: 74%; left: 0;     width: 118px; }
+
+  .hero-sport--basketball   { top: 11%; right: 0;    width: 112px; }
+  .hero-sport--badminton    { top: 33%; right: -2%;  width: 106px; }
+  .hero-sport--tennis       { top: 53%; right: 2%;   width: 88px; }
+  .hero-sport--carrom       { top: 73%; right: 1%;   width: 110px; }
+
+  .hero-sport--handball     { top: 4%;  left: 22%;   width: 88px; }
+  .hero-sport--throwball    { top: auto; bottom: 2%; left: 26%;  width: 72px; }
+  .hero-sport--table-tennis { top: auto; bottom: 4%; right: 8%; width: 76px; }
+}
+
+/* --- Desktop: the copy column is ~420px wide, leaving ~410px each side --- */
+@media (min-width: 1100px) {
+  .hero-sport--football     { top: 12%; left: 1%;   width: 206px; }
+  .hero-sport--kabaddi      { top: 25%; left: 13%;  width: 164px; }
+  .hero-sport--cricket      { top: 45%; left: -1%;  width: 188px; }
+  .hero-sport--chess        { top: 68%; left: 7%;   width: 150px; }
+  .hero-sport--throwball    { top: 78%; bottom: auto; left: 2%;  width: 104px; }
+
+  .hero-sport--basketball   { top: 13%; right: 2%;  width: 196px; }
+  .hero-sport--carrom       { top: 27%; right: 13%; width: 158px; }
+  .hero-sport--badminton    { top: 46%; right: -1%; width: 178px; }
+  .hero-sport--table-tennis { top: 60%; bottom: auto; right: 19%; width: 118px; }
+  .hero-sport--tennis       { top: 70%; right: 6%;  width: 144px; }
+  .hero-sport--handball     { top: 80%; left: auto; right: 3%; width: 128px; }
+}
+
+/* --- Small phones: the headline fills the width, so the side gutters drop to
+       ~54px. Figures shrink and hug the edges to stay clear of the glyphs. --- */
+@media (max-width: 420px) {
+  .hero-sport--football     { top: 74px;  left: -8px;   width: 58px; }
+  .hero-sport--handball     { top: 48px;  left: 128px;  width: 52px; }
+  .hero-sport--basketball   { top: 90px;  right: -6px;  width: 54px; }
+  .hero-sport--cricket      { top: 170px; left: -10px;  width: 54px; }
+  .hero-sport--badminton    { top: 168px; right: -10px; width: 52px; }
+  .hero-sport--chess        { top: 280px; left: -6px;   width: 50px; }
+  .hero-sport--tennis       { top: 272px; right: -4px;  width: 46px; }
+  .hero-sport--kabaddi      { top: 372px; left: -10px;  width: 60px; }
+  .hero-sport--carrom       { top: 380px; right: -12px; width: 56px; }
+  .hero-sport--throwball    { top: auto; bottom: 6px; left: 14px;  width: 42px; }
+  .hero-sport--table-tennis { top: auto; bottom: 8px; right: 16px; width: 44px; }
+}
+
+/* Large phones keep a full-width CTA row with only ~88px of usable band below
+   it, so the lower-left figure shrinks rather than creep under the buttons. */
+@media (min-width: 421px) and (max-width: 570px) {
+  .hero-sport--throwball    { bottom: 10px; left: 18px;  width: 38px; }
+  .hero-sport--table-tennis { bottom: 10px; right: 24px; width: 42px; }
+}
+
+/* --- Phone landscape ------------------------------------------------------
+   min-height drops to 0 here, so the hero is only as tall as its copy (~650px)
+   while staying very wide. The percentage positions tuned for a tall hero
+   compress into the copy, so this orientation gets its own rhythm: the two
+   side gutters carry the composition and the three band figures step out,
+   since there is no usable space above the lockup or below the CTAs. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .hero-sport--handball,
+  .hero-sport--throwball,
+  .hero-sport--table-tennis { display: none; }
+
+  .hero-sport--football   { top: 10%; left: 0;    width: 118px; }
+  .hero-sport--cricket    { top: 32%; left: -2%;  width: 110px; }
+  .hero-sport--chess      { top: 54%; left: 1%;   width: 96px; }
+  .hero-sport--kabaddi    { top: 74%; left: 0;    width: 118px; }
+
+  .hero-sport--basketball { top: 15%; right: 0;   width: 96px; }
+  .hero-sport--badminton  { top: 40%; right: -2%; width: 96px; }
+  .hero-sport--tennis     { top: 62%; right: 2%;  width: 84px; }
+  .hero-sport--carrom     { top: 85%; right: 1%;  width: 96px; }
+}
+
+/* --- Echo figures ---------------------------------------------------------
+   Hidden unless a breakpoint has measured room for them. Each is smaller than
+   its twin and sits in a different region, so no two neighbouring figures show
+   the same sport. Every rule resets both left and right: setting only one
+   leaves the other from a narrower breakpoint in play, which parked an echo
+   right next to the figure it was echoing. */
+.hero-sport--echo { display: none; }
+
+/* Phones: two extra figures in the lower band, either side of the scroll cue. */
+@media (min-width: 421px) {
+  .hero-sport--echo-football {
+    display: block; bottom: 6px; top: auto; left: 96px; right: auto;
+    width: 44px; rotate: 5deg; animation-delay: -2.3s;
+  }
+  .hero-sport--echo-badminton {
+    display: block; bottom: 6px; top: auto; right: 104px; left: auto;
+    width: 44px; rotate: -4deg; animation-delay: -4.7s;
+  }
+}
+
+/* Desktop: the gutters run ~410px deep, so a second, smaller column fits
+   inboard of the main one without ever reaching the copy column. */
+@media (min-width: 1100px) {
+  .hero-sport--echo-chess {
+    display: block; top: 8%; bottom: auto; left: 26%; right: auto;
+    width: 70px; rotate: -3deg; animation-delay: -0.7s;
+  }
+  .hero-sport--echo-football {
+    display: block; top: 38%; bottom: auto; right: 24%; left: auto;
+    width: 82px; rotate: -5deg; animation-delay: -1.4s;
+  }
+  .hero-sport--echo-badminton {
+    display: block; top: 56%; bottom: auto; left: 24%; right: auto;
+    width: 78px; rotate: 4deg; animation-delay: -3.1s;
+  }
+  .hero-sport--echo-cricket {
+    display: block; top: 88%; bottom: auto; right: 26%; left: auto;
+    width: 74px; rotate: 6deg; animation-delay: -5.6s;
+  }
+  .hero-sport--echo-basketball {
+    display: block; top: 90%; bottom: auto; left: 24%; right: auto;
+    width: 76px; rotate: 3deg; animation-delay: -6.4s;
+  }
+}
+
+/* The tablet and landscape compositions are already full, and both place a
+   figure where the phone echoes sit. They step out; the 1100px block brings
+   its own five back with positions measured for the deeper gutters. */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .hero-sport--echo { display: none; }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .hero-sport--echo { display: none; }
 }

@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useDialog } from '../../hooks/useDialog'
 
 export default function AdminAccountForm({ onSubmit, onCancel, submitting = false }) {
   const [form, setForm] = useState({ email: '', password: '', confirmPassword: '' })
   const [error, setError] = useState('')
+  const dialogRef = useDialog(onCancel)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -15,7 +17,7 @@ export default function AdminAccountForm({ onSubmit, onCancel, submitting = fals
 
   return (
     <div className="admin-modal-backdrop" role="presentation">  
-      <section className="admin-form-modal admin-confirm" role="dialog" aria-modal="true" aria-labelledby="admin-account-form-title">
+      <section className="admin-form-modal admin-confirm" role="dialog" aria-modal="true" aria-labelledby="admin-account-form-title" ref={dialogRef} tabIndex={-1}>
         <div className="admin-modal-heading">
           <div><span className="admin-eyebrow">Organizer access</span><h2 id="admin-account-form-title">Add administrator</h2></div>
           <button className="admin-modal-close" type="button" onClick={onCancel} aria-label="Close administrator form">×</button>

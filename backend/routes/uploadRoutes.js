@@ -1,6 +1,8 @@
 const express = require('express')
 const multer = require('multer')
 const { requireAuth } = require('../middleware/authMiddleware')
+const { noStore } = require('../middleware/cache')
+const { uploadLimiter } = require('../middleware/rateLimit')
 const { uploadImage } = require('../controllers/uploadController')
 
 const allowedMimeTypes = new Set(['image/jpeg', 'image/png', 'image/webp'])
@@ -27,6 +29,7 @@ function parseImageUpload(req, res, next) {
 }
 
 const router = express.Router()
-router.post('/image', requireAuth, parseImageUpload, uploadImage)
+// requireAuth runs first so the limiter can meter per admin rather than per shared proxy IP.
+router.post('/image', noStore, requireAuth, uploadLimiter, parseImageUpload, uploadImage)
 
 module.exports = router

@@ -1,61 +1,47 @@
 const TimelineEvent = require('../models/TimelineEvent')
 const {
-  isPlainObject,
+  createRequestValidator,
+  has,
   isValidDateValue,
-  isValidHttpUrl,
+  isValidationError,
   normalizeTimelinePayload,
-  pickFields,
   sendValidationError,
 } = require('./contentUtils')
+
+const LIST_LIMIT = 500
+const safeFields = 'title date createdAt updatedAt'
 
 const timelineFields = ['title', 'date']
 
 function validateTimelinePayload(payload, partial = false) {
-  if (!partial && (typeof payload.title !== 'string' || !payload.title)) return 'title is required'
-  if (Object.prototype.hasOwnProperty.call(payload, 'title') && (typeof payload.title !== 'string' || !payload.title)) return 'title is required'
-  if (!partial && !isValidDateValue(payload.date)) return 'date must be a valid date'
-  if (Object.prototype.hasOwnProperty.call(payload, 'date') && !isValidDateValue(payload.date)) return 'date must be a valid date'
+  if ((!partial || has(payload, 'title')) && (typeof payload.title !== 'string' || !payload.title)) return 'title is required'
+  if ((!partial || has(payload, 'date')) && !isValidDateValue(payload.date)) return 'date must be a valid date'
   return null
 }
 
-function isValidationError(error) {
-  return error?.name === 'ValidationError' || error?.name === 'CastError'
-}
+const validateTimelineRequest = createRequestValidator({
+  entity: 'timeline event',
+  fields: timelineFields,
+  normalize: normalizeTimelinePayload,
+  validate: validateTimelinePayload,
+  payloadKey: 'timelinePayload',
+})
 
-function validateTimelineRequest(req, res, next) {
-  if (!isPlainObject(req.body)) return res.status(400).json({ message: 'Invalid timeline event data' })
-
-  const payload = normalizeTimelinePayload(pickFields(req.body, timelineFields))
-  if (req.method === 'PATCH' && !Object.keys(payload).length) return res.status(400).json({ message: 'Invalid timeline event data' })
-
-  const validationMessage = validateTimelinePayload(payload, req.method === 'PATCH')
-  if (validationMessage) return res.status(400).json({ message: 'Invalid timeline event data', errors: { timeline: validationMessage } })
-
-  req.timelinePayload = payload
-  return next()
-}
-
+// Timeline events have no draft state, so the public and admin listings are the same query.
 async function listTimelineEvents(req, res) {
-  const events = await TimelineEvent.find().select('title date createdAt updatedAt').sort({ date: 1, createdAt: 1, _id: 1 }).lean()
-  return res.json({ events })
-}
-
-async function listAdminTimelineEvents(req, res) {
-  const events = await TimelineEvent.find().select('title date createdAt updatedAt').sort({ date: 1, createdAt: 1, _id: 1 }).lean()
+  const events = await TimelineEvent.find().select(safeFields).sort({ date: 1, createdAt: 1, _id: 1 }).limit(LIST_LIMIT).lean()
   return res.json({ events })
 }
 
 async function getTimelineEvent(req, res) {
-  const event = await TimelineEvent.findById(req.params.id).select('title date createdAt updatedAt').lean()
+  const event = await TimelineEvent.findById(req.params.id).select(safeFields).lean()
   if (!event) return res.status(404).json({ message: 'Timeline event not found' })
   return res.json({ event })
 }
 
 async function createTimelineEvent(req, res) {
-  const payload = req.timelinePayload || normalizeTimelinePayload(pickFields(req.body, timelineFields))
-
   try {
-    const event = await TimelineEvent.create(payload)
+    const event = await TimelineEvent.create(req.timelinePayload)
     return res.status(201).json({ event })
   } catch (error) {
     if (isValidationError(error)) return sendValidationError(res, 'timeline event', error)
@@ -64,10 +50,8 @@ async function createTimelineEvent(req, res) {
 }
 
 async function updateTimelineEvent(req, res) {
-  const payload = req.timelinePayload || normalizeTimelinePayload(pickFields(req.body, timelineFields))
-
   try {
-    const event = await TimelineEvent.findByIdAndUpdate(req.params.id, payload, { returnDocument: 'after', runValidators: true }).lean()
+    const event = await TimelineEvent.findByIdAndUpdate(req.params.id, req.timelinePayload, { returnDocument: 'after', runValidators: true }).select(safeFields).lean()
     if (!event) return res.status(404).json({ message: 'Timeline event not found' })
     return res.json({ event })
   } catch (error) {
@@ -82,4 +66,4 @@ async function deleteTimelineEvent(req, res) {
   return res.status(204).send()
 }
 
-module.exports = { listTimelineEvents, listAdminTimelineEvents, getTimelineEvent, createTimelineEvent, updateTimelineEvent, deleteTimelineEvent, validateTimelineRequest }
+module.exports = { listTimelineEvents, getTimelineEvent, createTimelineEvent, updateTimelineEvent, deleteTimelineEvent, validateTimelineRequest }

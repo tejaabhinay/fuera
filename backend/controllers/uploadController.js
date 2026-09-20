@@ -1,4 +1,5 @@
 const { uploadImageBuffer } = require('../config/cloudinary')
+const logger = require('../config/logger')
 
 const folders = {
   sports: 'fuera/sports',
@@ -27,6 +28,8 @@ async function uploadImage(req, res) {
     return res.status(201).json({ imageUrl: result.secure_url, publicId: result.public_id })
   } catch (error) {
     if (error.code === 'CLOUDINARY_NOT_CONFIGURED') return res.status(503).json({ message: 'Image uploads are not configured' })
+
+    logger.error('cloudinary_upload_failed', { requestId: req.id, folder, error: error?.message })
     return res.status(502).json({ message: 'Image upload failed. Please try again.' })
   }
 }

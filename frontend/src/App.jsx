@@ -1,18 +1,27 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import './App.css'
-import AdminLayout from './components/admin/AdminLayout'
-import AdminDashboardPage from './pages/admin/AdminDashboardPage'
-import AdminFixturesPage from './pages/admin/AdminFixturesPage'
-import AdminLoginPage from './pages/admin/AdminLoginPage'
-import AdminTimelinePage from './pages/admin/AdminTimelinePage'
-import AdminSportsPage from './pages/admin/AdminSportsPage'
-import AdminSignupPage from './pages/admin/AdminSignupPage'
-import AdminAdminsPage from './pages/admin/AdminAdminsPage'
-import AdminArchivePage from './pages/admin/AdminArchivePage'
-import FixturesPage from './pages/FixturesPage'
+import ErrorBoundary from './components/common/ErrorBoundary'
 import HomePage from './pages/HomePage'
-import NotFoundPage from './pages/NotFoundPage'
 import { getAuthToken, redirectToAdminLogin } from './services/api'
+
+// Only the public homepage is eager. Everything else — and especially the eight admin
+// pages plus admin.css — loads on demand so a visitor never downloads the admin UI.
+const FixturesPage = lazy(() => import('./pages/FixturesPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout'))
+const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'))
+const AdminSignupPage = lazy(() => import('./pages/admin/AdminSignupPage'))
+const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'))
+const AdminFixturesPage = lazy(() => import('./pages/admin/AdminFixturesPage'))
+const AdminTimelinePage = lazy(() => import('./pages/admin/AdminTimelinePage'))
+const AdminSportsPage = lazy(() => import('./pages/admin/AdminSportsPage'))
+const AdminLeaderboardPage = lazy(() => import('./pages/admin/AdminLeaderboardPage'))
+const AdminAdminsPage = lazy(() => import('./pages/admin/AdminAdminsPage'))
+const AdminArchivePage = lazy(() => import('./pages/admin/AdminArchivePage'))
+
+function RouteFallback() {
+  return <main className="admin-route-loading" role="status">Loading…</main>
+}
 
 function AdminProtectedRoute({ children }) {
   const hasToken = Boolean(getAuthToken())
@@ -25,20 +34,33 @@ function AdminProtectedRoute({ children }) {
   return <AdminLayout>{children}</AdminLayout>
 }
 
+function protectedRoute(Page) {
+  return () => <AdminProtectedRoute><Page /></AdminProtectedRoute>
+}
+
+const routes = {
+  '/': () => <HomePage />,
+  '/fixtures': () => <FixturesPage />,
+  '/admin/login': () => <AdminLoginPage />,
+  '/admin/signup': () => <AdminSignupPage />,
+  '/admin': protectedRoute(AdminDashboardPage),
+  '/admin/fixtures': protectedRoute(AdminFixturesPage),
+  '/admin/timeline': protectedRoute(AdminTimelinePage),
+  '/admin/sports': protectedRoute(AdminSportsPage),
+  '/admin/leaderboard': protectedRoute(AdminLeaderboardPage),
+  '/admin/admins': protectedRoute(AdminAdminsPage),
+  '/admin/archive': protectedRoute(AdminArchivePage),
+}
+
 function App() {
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
+  const renderRoute = routes[pathname] || (() => <NotFoundPage />)
 
-  if (pathname === '/admin/login') return <AdminLoginPage />
-  if (pathname === '/admin/signup') return <AdminSignupPage />
-  if (pathname === '/admin') return <AdminProtectedRoute><AdminDashboardPage /></AdminProtectedRoute>
-  if (pathname === '/admin/fixtures') return <AdminProtectedRoute><AdminFixturesPage /></AdminProtectedRoute>
-  if (pathname === '/admin/timeline') return <AdminProtectedRoute><AdminTimelinePage /></AdminProtectedRoute>
-  if (pathname === '/admin/sports') return <AdminProtectedRoute><AdminSportsPage /></AdminProtectedRoute>
-  if (pathname === '/admin/admins') return <AdminProtectedRoute><AdminAdminsPage /></AdminProtectedRoute>
-  if (pathname === '/admin/archive') return <AdminProtectedRoute><AdminArchivePage /></AdminProtectedRoute>
-  if (pathname === '/') return <HomePage />
-  if (pathname === '/fixtures') return <FixturesPage />
-  return <NotFoundPage />
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<RouteFallback />}>{renderRoute()}</Suspense>
+    </ErrorBoundary>
+  )
 }
 
 export default App

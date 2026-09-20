@@ -1,64 +1,53 @@
 const PreviousEdition = require('../models/PreviousEdition')
-const { isPlainObject, pickFields, sendValidationError } = require('./contentUtils')
+const {
+  createRequestValidator,
+  has,
+  isFiniteNumber,
+  isRequiredHttpUrl,
+  isValidationError,
+  sendValidationError,
+  trimFields,
+} = require('./contentUtils')
+
+const LIST_LIMIT = 200
+const safeFields = 'imageUrl year title order isPublished'
 
 const previousEditionFields = ['imageUrl', 'year', 'title', 'order', 'isPublished']
 
 function normalizePreviousEditionPayload(payload) {
-  for (const field of ['imageUrl', 'year', 'title']) {
-    if (typeof payload[field] === 'string') payload[field] = payload[field].trim()
-  }
-  return payload
-}
-
-function isValidHttpUrl(value) {
-  if (typeof value !== 'string' || !value) return false
-
-  try {
-    const url = new URL(value)
-    return url.protocol === 'http:' || url.protocol === 'https:'
-  } catch {
-    return false
-  }
+  return trimFields(payload, ['imageUrl', 'year', 'title'])
 }
 
 function validatePreviousEditionPayload(payload, partial = false) {
-  if (!partial && !isValidHttpUrl(payload.imageUrl)) return 'imageUrl must be a valid HTTP or HTTPS URL'
-  if (Object.prototype.hasOwnProperty.call(payload, 'imageUrl') && !isValidHttpUrl(payload.imageUrl)) return 'imageUrl must be a valid HTTP or HTTPS URL'
+  if ((!partial || has(payload, 'imageUrl')) && !isRequiredHttpUrl(payload.imageUrl)) return 'imageUrl must be a valid HTTP or HTTPS URL'
   for (const field of ['year', 'title']) {
-    if (Object.prototype.hasOwnProperty.call(payload, field) && typeof payload[field] !== 'string') return `${field} must be a string`
+    if (has(payload, field) && typeof payload[field] !== 'string') return `${field} must be a string`
   }
-  if (Object.prototype.hasOwnProperty.call(payload, 'order') && (typeof payload.order !== 'number' || !Number.isFinite(payload.order))) return 'order must be a number'
-  if (Object.prototype.hasOwnProperty.call(payload, 'isPublished') && typeof payload.isPublished !== 'boolean') return 'isPublished must be a boolean'
+  if (has(payload, 'order') && !isFiniteNumber(payload.order)) return 'order must be a number'
+  if (has(payload, 'isPublished') && typeof payload.isPublished !== 'boolean') return 'isPublished must be a boolean'
   return null
 }
 
-function isValidationError(error) {
-  return error?.name === 'ValidationError' || error?.name === 'CastError'
+const validatePreviousEditionRequest = createRequestValidator({
+  entity: 'archive image',
+  fields: previousEditionFields,
+  normalize: normalizePreviousEditionPayload,
+  validate: validatePreviousEditionPayload,
+  payloadKey: 'previousEditionPayload',
+})
+
+function findEditions(filter) {
+  return PreviousEdition.find(filter).select(safeFields).sort({ order: 1, _id: 1 }).limit(LIST_LIMIT).lean()
 }
-
-function validatePreviousEditionRequest(req, res, next) {
-  if (!isPlainObject(req.body)) return res.status(400).json({ message: 'Invalid archive image data' })
-
-  const payload = normalizePreviousEditionPayload(pickFields(req.body, previousEditionFields))
-  if (req.method === 'PATCH' && !Object.keys(payload).length) return res.status(400).json({ message: 'Invalid archive image data' })
-
-  const validationMessage = validatePreviousEditionPayload(payload, req.method === 'PATCH')
-  if (validationMessage) return res.status(400).json({ message: 'Invalid archive image data', errors: { archive: validationMessage } })
-
-  req.previousEditionPayload = payload
-  return next()
-}
-
-const safeFields = 'imageUrl year title order isPublished'
 
 async function listPreviousEditions(req, res) {
-  const editions = await PreviousEdition.find({ isPublished: true }).select(safeFields).sort({ order: 1, _id: 1 }).lean()
-  return res.json(editions)
+  const previousEditions = await findEditions({ isPublished: true })
+  return res.json({ previousEditions })
 }
 
 async function listAdminPreviousEditions(req, res) {
-  const editions = await PreviousEdition.find().select(safeFields).sort({ order: 1, _id: 1 }).lean()
-  return res.json({ previousEditions: editions })
+  const previousEditions = await findEditions({})
+  return res.json({ previousEditions })
 }
 
 async function createPreviousEdition(req, res) {

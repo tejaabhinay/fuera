@@ -2,6 +2,7 @@ const express = require('express')
 const { requireDatabase } = require('../middleware/database')
 const { requireAuth } = require('../middleware/authMiddleware')
 const { validateObjectId } = require('../middleware/validateObjectId')
+const { noStore, publicCache } = require('../middleware/cache')
 const {
   createPreviousEdition,
   deletePreviousEdition,
@@ -13,10 +14,10 @@ const {
 
 const router = express.Router()
 
-router.get('/', requireDatabase, listPreviousEditions)
-router.get('/admin', requireAuth, requireDatabase, listAdminPreviousEditions)
-router.post('/', requireAuth, validatePreviousEditionRequest, requireDatabase, createPreviousEdition)
-router.patch('/:id', requireAuth, validateObjectId('archive image'), validatePreviousEditionRequest, requireDatabase, updatePreviousEdition)
-router.delete('/:id', requireAuth, validateObjectId('archive image'), requireDatabase, deletePreviousEdition)
+router.get('/', publicCache(120), requireDatabase, listPreviousEditions)
+router.get('/admin', noStore, requireAuth, requireDatabase, listAdminPreviousEditions)
+router.post('/', noStore, requireAuth, validatePreviousEditionRequest, requireDatabase, createPreviousEdition)
+router.patch('/:id', noStore, requireAuth, validateObjectId('archive image'), validatePreviousEditionRequest, requireDatabase, updatePreviousEdition)
+router.delete('/:id', noStore, requireAuth, validateObjectId('archive image'), requireDatabase, deletePreviousEdition)
 
 module.exports = router

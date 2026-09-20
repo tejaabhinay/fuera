@@ -1,11 +1,8 @@
 const jwt = require('jsonwebtoken')
 const Admin = require('../models/Admin')
 const { getJwtExpiresIn, getJwtSecret } = require('../config/auth')
+const { isPlainObject } = require('./contentUtils')
 const { hashPassword, normalizeEmail, validateCredentials, verifyPassword } = require('../services/adminCredentials')
-
-function isPlainObject(value) {
-  return value !== null && typeof value === 'object' && !Array.isArray(value)
-}
 
 function validateLoginRequest(req, res, next) {
   const { email, password } = req.body || {}
@@ -65,4 +62,4 @@ async function login(req, res) {
   return res.json({ token, admin: { id: admin._id.toString(), email: admin.email } })
 }
 
-module.exports = { validateLoginRequest, validateSignupRequest, setupStatus, signup, login, isPlainObject }
+module.exports = { validateLoginRequest, validateSignupRequest, setupStatus, signup, login }

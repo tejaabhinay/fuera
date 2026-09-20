@@ -1,6 +1,6 @@
 const Admin = require('../models/Admin')
 const { hashPassword, normalizeEmail, validateCredentials } = require('../services/adminCredentials')
-const { isPlainObject } = require('./authController')
+const { isPlainObject } = require('./contentUtils')
 
 function validateAdminRequest(req, res, next) {
   const { email, password, confirmPassword } = req.body || {}

@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Oswald';
-  src: url('./assets/fonts/Oswald-VariableFont_wght.ttf') format('truetype');
+  src: url('/fonts/Oswald-VariableFont_wght.woff2') format('woff2');
   font-style: normal;
   font-weight: 200 700;
   font-display: swap;
@@ -8,20 +8,62 @@
 
 @font-face {
   font-family: 'Oxanium';
-  src: url('./assets/fonts/Oxanium-VariableFont_wght.ttf') format('truetype');
+  src: url('/fonts/Oxanium-VariableFont_wght.woff2') format('woff2');
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
 }
 
+/* ==========================================================================
+   FUERA design tokens
+
+   Breakpoints (documented here because CSS media queries cannot read vars):
+     sm   480px   large phone
+     md   768px   tablet portrait
+     lg   1024px  tablet landscape / small laptop
+     xl   1280px  desktop
+   The legacy 571px / 901px queries predate this scale; new work uses the
+   571 / 901 boundaries to stay consistent with the existing layout layers.
+   ========================================================================== */
+
 :root {
+  /* --- Surfaces: a deliberate ladder from page background to raised card --- */
   --ink: #101719;
   --ink-soft: #182123;
+  --surface-1: #141c1e;
+  --surface-2: #1b2427;
+  --surface-3: #222d30;
+  --surface-raised: rgba(239, 236, 229, 0.045);
+
+  /* --- Foreground --- */
   --paper: #efece5;
-  --orange: #ff5a28;
   --muted: #8e9692;
+  --muted-strong: #aab2ae;
+  --faint: rgba(239, 236, 229, 0.52);
+
+  /* --- Accent --- */
+  --orange: #ff5a28;
+  --orange-bright: #ff7448;
+  --orange-dim: rgba(255, 90, 40, 0.14);
+  --orange-glow: rgba(255, 90, 40, 0.28);
+
+  /* --- Match status --- */
+  --status-live: #ff3b30;
+  --status-live-dim: rgba(255, 59, 48, 0.15);
+  --status-upcoming: #f5b53d;
+  --status-upcoming-dim: rgba(245, 181, 61, 0.15);
+  --status-completed: #4da67a;
+  --status-completed-dim: rgba(77, 166, 122, 0.15);
+  --status-off: #7c8784;
+  --status-off-dim: rgba(124, 135, 132, 0.15);
+
+  /* --- Lines --- */
   --line: rgba(239, 236, 229, 0.16);
+  --line-strong: rgba(239, 236, 229, 0.3);
+  --line-faint: rgba(239, 236, 229, 0.08);
   --dark-line: rgba(16, 23, 25, 0.16);
+
+  /* --- Typography --- */
   --font-display: 'Oswald', sans-serif;
   --font-ui: 'Oxanium', sans-serif;
   --font-body: var(--font-ui);
@@ -29,45 +71,112 @@
   --display: var(--font-display);
   --body: var(--font-body);
   --mono: var(--font-mono);
+
+  /* Fluid type scale. Every step is clamp()ed so nothing overflows at 320px. */
+  --text-micro: clamp(8px, 1.6vw, 9px);
+  --text-label: clamp(9px, 1.8vw, 10px);
+  --text-xs: clamp(10px, 2vw, 11px);
+  --text-sm: clamp(11px, 2.2vw, 12px);
+  --text-base: clamp(13px, 2.4vw, 14px);
+  --text-md: clamp(15px, 2.6vw, 16px);
+  --text-lg: clamp(18px, 3vw, 21px);
+  --text-xl: clamp(23px, 4vw, 28px);
+  --text-2xl: clamp(28px, 5.5vw, 40px);
+  --text-3xl: clamp(34px, 7vw, 56px);
+  --text-hero: clamp(42px, 12vw, 104px);
+  --text-section: clamp(46px, 13vw, 116px);
+
+  /* Tracking presets — condensed display type needs negative, labels positive. */
+  --track-display: -0.03em;
+  --track-tight: -0.01em;
+  --track-label: 0.09em;
+  --track-wide: 0.14em;
+
+  /* --- Spacing scale (4px base) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Vertical rhythm between major sections, fluid across the whole range. */
+  --section-y: clamp(62px, 9vw, 120px);
+  --section-gap: clamp(28px, 5vw, 55px);
+
+  /* --- Radii --- */
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+
+  /* --- Elevation. Kept tight; large soft shadows read as cheap on dark UI. --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.26);
+  --shadow-lg: 0 22px 48px rgba(0, 0, 0, 0.34);
+  --shadow-accent: 0 12px 30px rgba(255, 90, 40, 0.18);
+
+  /* --- Motion --- */
+  --dur-fast: 140ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+  --dur-reveal: 620ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* --- Layout --- */
+  --gutter: clamp(18px, 4vw, 64px);
+  --content-max: 1360px;
+  --z-header: 40;
+  --z-overlay: 60;
+  --z-modal: 70;
+
   color: var(--paper);
   background: var(--ink);
   font-family: var(--body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; overflow-x: clip; background: var(--ink); }
+
+html {
+  scroll-behavior: smooth;
+  /* Anchor targets clear the sticky header instead of hiding beneath it. */
+  scroll-padding-top: 88px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  background: var(--ink);
+  /* Honour notches in landscape without pushing layout on normal phones. */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
 #root { width: 100%; max-width: 100%; overflow-x: clip; }
+
 button, a { font: inherit; }
 a { color: inherit; text-decoration: none; }
-button { cursor: pointer; }
-::selection { color: var(--ink); background: var(--orange); }
-/* frontend/src/index.css */
 
-/* REMOVE the previous .scroll-reveal CSS completely and use this */
+/* Media defaults: nothing can overflow its column or distort its ratio. */
+img, svg, video { max-width: 100%; }
 
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(45px);
-  transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
-}
-
-.scroll-reveal--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+button, [role='button'], select { touch-action: manipulation; }
 
 @media (prefers-reduced-motion: reduce) {
-  .scroll-reveal,
-  .scroll-reveal--visible {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
+  html { scroll-behavior: auto; }
 }

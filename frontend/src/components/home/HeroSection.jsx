@@ -1,35 +1,89 @@
 import { useEffect, useState } from 'react'
+import { ArrowDown } from 'lucide-react'
 import ArrowIcon from '../common/ArrowIcon'
+import { SASTRA_LOGO_SRC } from '../common/BrandLockup'
 
-const HERO_TAGLINE = 'THE GAME STARTS HERE'
+// Kept as separate lines so the typewriter never slices the string at hardcoded
+// offsets; editing the copy no longer silently scrambles the line breaks.
+const HERO_TAGLINE_LINES = ['THE GAME', 'STARTS', 'HERE']
+const HERO_TAGLINE = HERO_TAGLINE_LINES.join(' ')
 const HERO_FEST_LABEL = 'INTRA-UNIVERSITY SPORTS FEST'
 const TYPE_SPEED_MS = 75
 const CURSOR_DURATION_MS = 1200
 
-const HERO_SPORTS = [
-  { id: 'football', src: '/images/sports/soccer(1).png', className: 'hero-sport--football' },
-  { id: 'cricket', src: '/images/sports/cricket(1).png', className: 'hero-sport--cricket' },
-  { id: 'badminton', src: '/images/sports/badminton.png', className: 'hero-sport--badminton' },
-  { id: 'basketball', src: '/images/sports/basketball.png', className: 'hero-sport--basketball' },
-  { id: 'carrom', src: '/images/sports/carroms.png', className: 'hero-sport--carrom hero-sport--light' },
-  { id: 'chess', src: '/images/sports/chess.png', className: 'hero-sport--chess hero-sport--light' },
-  { id: 'handball', src: '/images/sports/handball.png', className: 'hero-sport--handball' },
-  { id: 'kabaddi', src: '/images/sports/kabaddi.png', className: 'hero-sport--kabaddi' },
-  { id: 'table-tennis', src: '/images/sports/tabletennis.png', className: 'hero-sport--table-tennis hero-sport--light' },
-  { id: 'tennis', src: '/images/sports/tennis.png', className: 'hero-sport--tennis' },
-  { id: 'throwball', src: '/images/sports/throwball.png', className: 'hero-sport--throwball hero-sport--light' },
+/**
+ * Two compositions from one DOM.
+ *
+ * Phones and tablets lay the athletes out as two flow rows, one above and one
+ * below the copy, so overlap is impossible by construction rather than by
+ * hand-tuned offsets. From 901px the same images become an absolutely
+ * positioned perimeter around the copy, where there is room for all eleven.
+ */
+/**
+ * One scattered composition. Each athlete is absolutely positioned inside the
+ * hero by its own class, tuned per breakpoint so the figures sit in the free
+ * margins around the copy — the side gutters included, which a row layout
+ * wasted entirely.
+ */
+const HERO_ATHLETES = [
+  { id: 'football', src: '/images/sports/football.webp' },
+  { id: 'handball', src: '/images/sports/handball.webp' },
+  { id: 'basketball', src: '/images/sports/basketball.webp' },
+  { id: 'cricket', src: '/images/sports/cricket.webp' },
+  { id: 'badminton', src: '/images/sports/badminton.webp' },
+  { id: 'chess', src: '/images/sports/chess.webp' },
+  { id: 'tennis', src: '/images/sports/tennis.webp' },
+  { id: 'kabaddi', src: '/images/sports/kabaddi.webp' },
+  { id: 'carrom', src: '/images/sports/carroms.webp' },
+  { id: 'throwball', src: '/images/sports/throwball.webp' },
+  { id: 'table-tennis', src: '/images/sports/tabletennis.webp' },
+
+  // Echo figures. Only eleven distinct sport illustrations exist (the twelfth,
+  // volleyball, ships with a net across the whole frame and turns to mush at
+  // hero size), so the composition is filled out with smaller repeats placed
+  // far from their twin and never beside another figure of the same sport.
+  // They are display:none by default and only appear where there is room.
+  { id: 'echo-football', src: '/images/sports/football.webp', echo: true },
+  { id: 'echo-badminton', src: '/images/sports/badminton.webp', echo: true },
+  { id: 'echo-cricket', src: '/images/sports/cricket.webp', echo: true },
+  { id: 'echo-chess', src: '/images/sports/chess.webp', echo: true },
+  { id: 'echo-basketball', src: '/images/sports/basketball.webp', echo: true },
 ]
 
+function Athlete({ sport }) {
+  return (
+    <img
+      className={`hero-sport hero-sport--${sport.id}${sport.echo ? ' hero-sport--echo' : ''}`}
+      src={sport.src}
+      alt=""
+      loading={sport.echo ? 'lazy' : 'eager'}
+      decoding="async"
+      fetchPriority="low"
+    />
+  )
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+function getVisibleLines(typedLength) {
+  let consumed = 0
+
+  return HERO_TAGLINE_LINES.map((line, index) => {
+    const start = consumed
+    // Every line but the last is followed by the space that joins the tagline.
+    consumed += line.length + (index < HERO_TAGLINE_LINES.length - 1 ? 1 : 0)
+    return line.slice(0, Math.max(0, typedLength - start))
+  })
+}
+
 function HeroTagline() {
-  const [typedLength, setTypedLength] = useState(() => (
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches ? HERO_TAGLINE.length : 0
-  ))
+  const [typedLength, setTypedLength] = useState(() => (prefersReducedMotion() ? HERO_TAGLINE.length : 0))
   const [showCursor, setShowCursor] = useState(false)
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return undefined
-    }
+    if (prefersReducedMotion()) return undefined
 
     let currentLength = 0
     let timerId
@@ -51,12 +105,7 @@ function HeroTagline() {
     return () => window.clearTimeout(timerId)
   }, [])
 
-  const firstLine = HERO_TAGLINE.slice(0, 8)
-  const secondLine = HERO_TAGLINE.slice(9, 15)
-  const thirdLine = HERO_TAGLINE.slice(16, 20)
-  const visibleFirstLine = firstLine.slice(0, typedLength)
-  const visibleSecondLine = typedLength > 9 ? secondLine.slice(0, typedLength - 9) : ''
-  const visibleThirdLine = typedLength > 16 ? thirdLine.slice(0, typedLength - 16) : ''
+  const [visibleFirstLine, visibleSecondLine, visibleThirdLine] = getVisibleLines(typedLength)
 
   return (
     <h1 id="hero-title" aria-label={HERO_TAGLINE}>
@@ -72,28 +121,56 @@ function HeroTagline() {
   )
 }
 
-export default function HeroSection() {
+export default function HeroSection({ hasLive = false }) {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-grid" aria-hidden="true" />
-      <div className="hero-sports" aria-hidden="true">
-        {HERO_SPORTS.map((sport) => (
-          <img
-            className={`hero-sport ${sport.className}`}
-            src={sport.src}
-            alt=""
-            loading="eager"
-            decoding="async"
-            key={sport.id}
-          />
-        ))}
+
+      <div className="hero-athletes" aria-hidden="true">
+        {HERO_ATHLETES.map((sport) => <Athlete sport={sport} key={sport.id} />)}
       </div>
+
       <div className="hero-content">
-        <img className="hero-wordmark" src="/images/fuera26-27.png" alt="FUERA" />
+        {/* SASTRA leads the lockup; FUERA sits beneath it as the event mark. */}
+        <p className="hero-sastra">
+          <img
+            src={SASTRA_LOGO_SRC}
+            alt="SASTRA Deemed University"
+            width="400"
+            height="107"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </p>
+
+        <img
+          className="hero-wordmark"
+          src="/images/fuera26-27.webp"
+          alt="FUERA 26–27"
+          width="900"
+          height="156"
+          decoding="async"
+        />
+
         <p className="hero-fest-label">{HERO_FEST_LABEL}</p>
         <HeroTagline />
-        <a className="button button-primary" href="#sports">Explore sports <ArrowIcon /></a>
+
+        <div className="hero-actions">
+          <a className="button button-primary" href="#sports">
+            <span>Explore sports</span>
+            <ArrowIcon />
+          </a>
+          <a className="button button-ghost" href="/fixtures">
+            <span>{hasLive ? 'Live scores' : 'View fixtures'}</span>
+            {hasLive && <span className="button__live-dot" aria-hidden="true" />}
+          </a>
+        </div>
       </div>
+
+      <a className="scroll-prompt" href="#sports" aria-label="Scroll to sports">
+        <span>Scroll</span>
+        <ArrowDown size={13} aria-hidden="true" />
+      </a>
     </section>
   )
 }

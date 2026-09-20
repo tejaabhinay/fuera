@@ -1,4 +1,5 @@
 const { saveRegistration } = require('../services/registrationService')
+const logger = require('../config/logger')
 
 function isValidEmail(email) {
   return /^\S+@\S+\.\S+$/.test(email)
@@ -39,7 +40,12 @@ async function createRegistration(req, res) {
         createdAt: registration.createdAt,
       },
     })
-  } catch {
+  } catch (error) {
+    if (error?.code === 'DATABASE_UNAVAILABLE') {
+      return res.status(503).json({ message: 'Registration service is temporarily unavailable.' })
+    }
+
+    logger.error('registration_failed', { requestId: req.id, name: error?.name, error: error?.message })
     return res.status(500).json({ message: 'Unable to save registration.' })
   }
 }

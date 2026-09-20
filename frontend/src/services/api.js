@@ -1,6 +1,17 @@
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/+$/, '')
 const AUTH_TOKEN_KEY = 'fuera_admin_token'
 
+async function readJsonResponse(response) {
+  const contentType = response.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) return null
+
+  try {
+    return await response.json()
+  } catch {
+    return null
+  }
+}
+
 export function getAuthToken() {
   return sessionStorage.getItem(AUTH_TOKEN_KEY)
 }
@@ -39,8 +50,7 @@ export async function apiRequest(path, options = {}) {
     throw error
   }
 
-  const contentType = response.headers.get('content-type') || ''
-  const data = contentType.includes('application/json') ? await response.json() : null
+  const data = await readJsonResponse(response)
 
   if (!response.ok) {
     if (response.status === 401 && window.location.pathname.startsWith('/admin')) redirectToAdminLogin()
@@ -57,11 +67,12 @@ export async function uploadImage(file, folder) {
   formData.append('image', file)
   formData.append('folder', folder)
 
+  const token = getAuthToken()
   let response
   try {
     response = await fetch(`${API_BASE_URL}/api/uploads/image`, {
       method: 'POST',
-      headers: getAuthToken() ? { Authorization: `Bearer ${getAuthToken()}` } : {},
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
       body: formData,
     })
   } catch {
@@ -70,8 +81,7 @@ export async function uploadImage(file, folder) {
     throw error
   }
 
-  const contentType = response.headers.get('content-type') || ''
-  const data = contentType.includes('application/json') ? await response.json() : null
+  const data = await readJsonResponse(response)
   if (!response.ok) {
     if (response.status === 401 && window.location.pathname.startsWith('/admin')) redirectToAdminLogin()
     const error = new Error(data?.message || 'Request failed')

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDialog } from '../../hooks/useDialog'
 import ImageUploadField from './ImageUploadField'
 
 function toFormValue(sport) {
@@ -24,6 +25,7 @@ function isHttpUrl(value) {
 export default function SportForm({ initialSport, onSubmit, onCancel, submitting = false }) {
   const [form, setForm] = useState(() => toFormValue(initialSport))
   const [error, setError] = useState('')
+  const dialogRef = useDialog(onCancel)
 
   const updateField = (event) => {
     const { name, value } = event.target
@@ -55,7 +57,7 @@ export default function SportForm({ initialSport, onSubmit, onCancel, submitting
 
   return (
     <div className="admin-modal-backdrop" role="presentation">
-      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="sport-form-title">
+      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="sport-form-title" ref={dialogRef} tabIndex={-1}>
         <div className="admin-modal-heading">
           <div><span className="admin-eyebrow">Sport registration</span><h2 id="sport-form-title">{initialSport ? 'Edit sport' : 'Add sport'}</h2></div>
           <button className="admin-modal-close" type="button" onClick={onCancel} aria-label="Close sport form">×</button>

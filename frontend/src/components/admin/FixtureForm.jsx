@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
+import { useDialog } from '../../hooks/useDialog'
+import { useApiResource } from '../../hooks/useApiResource'
 import ImageUploadField from './ImageUploadField'
 
 const statuses = ['upcoming', 'live', 'completed', 'postponed', 'cancelled']
@@ -27,6 +29,13 @@ function toFormValue(fixture) {
 export default function FixtureForm({ initialFixture, onSubmit, onCancel, submitting = false }) {
   const [form, setForm] = useState(() => toFormValue(initialFixture))
   const [error, setError] = useState('')
+  const dialogRef = useDialog(onCancel)
+  const sportListId = useId()
+  // Free-text sport names drift from the Sport records ("Carroms" vs "carrom"),
+  // which silently breaks the per-sport stats on the homepage. Suggesting the
+  // configured names keeps them aligned without rejecting existing values.
+  const { data: sportData } = useApiResource('/api/sports/admin', { auth: true, errorMessage: '' })
+  const sportNames = (sportData?.sports || []).map((sport) => sport.name)
 
   const updateField = (event) => {
     const { name, value } = event.target
@@ -66,7 +75,7 @@ export default function FixtureForm({ initialFixture, onSubmit, onCancel, submit
 
   return (
     <div className="admin-modal-backdrop" role="presentation">
-      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="fixture-form-title">
+      <section className="admin-form-modal" role="dialog" aria-modal="true" aria-labelledby="fixture-form-title" ref={dialogRef} tabIndex={-1}>
         <div className="admin-modal-heading">
           <div>
             <span className="admin-eyebrow">Fixture content</span>
@@ -76,7 +85,13 @@ export default function FixtureForm({ initialFixture, onSubmit, onCancel, submit
         </div>
         <form className="admin-form" onSubmit={handleSubmit}>
           <div className="admin-form-grid">
-            <label>Sport *<input name="sport" value={form.sport} onChange={updateField} required /></label>
+            <label>
+              Sport *
+              <input name="sport" value={form.sport} onChange={updateField} list={sportListId} required />
+              <datalist id={sportListId}>
+                {sportNames.map((name) => <option value={name} key={name} />)}
+              </datalist>
+            </label>
             <label>Round<input name="round" value={form.round} onChange={updateField} placeholder="Quarter Final" /></label>
             <label>Team A<input name="teamA" value={form.teamA} onChange={updateField} /></label>
             <label>Team B<input name="teamB" value={form.teamB} onChange={updateField} /></label>

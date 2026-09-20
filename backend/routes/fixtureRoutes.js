@@ -2,6 +2,7 @@ const express = require('express')
 const { requireDatabase } = require('../middleware/database')
 const { requireAuth } = require('../middleware/authMiddleware')
 const { validateObjectId } = require('../middleware/validateObjectId')
+const { noStore, publicCache } = require('../middleware/cache')
 const {
   createFixture,
   deleteFixture,
@@ -13,10 +14,10 @@ const {
 
 const router = express.Router()
 
-router.get('/', requireDatabase, listFixtures)
-router.post('/', requireAuth, validateFixtureRequest, requireDatabase, createFixture)
-router.get('/:id', validateObjectId('fixture'), requireDatabase, getFixture)
-router.patch('/:id', requireAuth, validateObjectId('fixture'), validateFixtureRequest, requireDatabase, updateFixture)
-router.delete('/:id', requireAuth, validateObjectId('fixture'), requireDatabase, deleteFixture)
+router.get('/', publicCache(30), requireDatabase, listFixtures)
+router.post('/', noStore, requireAuth, validateFixtureRequest, requireDatabase, createFixture)
+router.get('/:id', publicCache(30), validateObjectId('fixture'), requireDatabase, getFixture)
+router.patch('/:id', noStore, requireAuth, validateObjectId('fixture'), validateFixtureRequest, requireDatabase, updateFixture)
+router.delete('/:id', noStore, requireAuth, validateObjectId('fixture'), requireDatabase, deleteFixture)
 
 module.exports = router
