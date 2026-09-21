@@ -26,7 +26,7 @@ export default function EventContacts() {
             <b>FOR FURTHER DETAILS</b>
           </span>
           <span className="department-contact__name">Dr. B. SRIPERIYA</span>
-          <span>Department of Physical Education</span>
+          <span>Director, Physical Education</span>
           <span>Student Activity Centre</span>
           <span>SASTRA DEEMED UNIVERSITY</span>
           <span>Thanjavur – 613401, Tamil Nadu</span>
