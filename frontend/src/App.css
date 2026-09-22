@@ -2384,6 +2384,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 /* --- Phones: top band, both side gutters, bottom band --------------------- */
 .hero-sport--football     { top: 78px;  left: -6px;   width: 80px; rotate: -5deg; animation-delay: -0.4s; }
 .hero-sport--handball     { top: 50px;  left: 148px;  width: 66px; rotate: 4deg;  animation-delay: -2.1s; }
+.hero-sport--volleyball   { bottom: 8px; left: calc(50% - 38px); width: 76px; rotate: -4deg; animation-delay: -5.7s; }
 .hero-sport--basketball   { top: 84px;  right: 2px;   width: 72px; rotate: 6deg;  animation-delay: -1.3s; }
 .hero-sport--cricket      { top: 196px; left: -8px;   width: 74px; rotate: -3deg; animation-delay: -3.2s; }
 .hero-sport--badminton    { top: 192px; right: -6px;  width: 72px; rotate: 5deg;  animation-delay: -0.9s; }
@@ -2402,6 +2403,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 /* --- Large phone / small tablet: copy is capped at 420px, so the gutters
        widen on their own. Same anchoring as phones, just larger figures. --- */
 @media (min-width: 571px) {
+  .hero-sport--volleyball   { left: calc(50% - 44px); width: 88px; }
   .hero-sport--football     { top: 70px;  width: 104px; }
   .hero-sport--handball     { top: 46px;  width: 86px; }
   .hero-sport--basketball   { top: 96px;  width: 94px; }
@@ -2418,6 +2420,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 /* --- Tablet: four figures per gutter plus two in the bands. Sizes chosen so
        the stacked bounding boxes leave >25px between neighbours. --- */
 @media (min-width: 768px) {
+  .hero-sport--volleyball   { top: auto; bottom: 2%; left: calc(50% - 54px); width: 108px; }
   .hero-sport--football     { top: 10%; left: 0;     width: 118px; }
   .hero-sport--cricket      { top: 32%; left: -2%;   width: 110px; }
   .hero-sport--chess        { top: 54%; left: 1%;    width: 96px; }
@@ -2435,6 +2438,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 
 /* --- Desktop: the copy column is ~420px wide, leaving ~410px each side --- */
 @media (min-width: 1100px) {
+  .hero-sport--volleyball   { top: 78%; bottom: auto; left: calc(50% - 72px); width: 144px; }
   .hero-sport--football     { top: 12%; left: 1%;   width: 206px; }
   .hero-sport--kabaddi      { top: 25%; left: 13%;  width: 164px; }
   .hero-sport--cricket      { top: 45%; left: -1%;  width: 188px; }
@@ -2452,6 +2456,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
 /* --- Small phones: the headline fills the width, so the side gutters drop to
        ~54px. Figures shrink and hug the edges to stay clear of the glyphs. --- */
 @media (max-width: 420px) {
+  .hero-sport--volleyball   { bottom: 6px; left: calc(50% - 28px); width: 56px; }
   .hero-sport--football     { top: 74px;  left: -8px;   width: 58px; }
   .hero-sport--handball     { top: 48px;  left: 128px;  width: 52px; }
   .hero-sport--basketball   { top: 90px;  right: -6px;  width: 54px; }
@@ -2480,6 +2485,7 @@ a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid
    since there is no usable space above the lockup or below the CTAs. */
 @media (max-width: 900px) and (orientation: landscape) {
   .hero-sport--handball,
+  .hero-sport--volleyball,
   .hero-sport--throwball,
   .hero-sport--table-tennis { display: none; }
 

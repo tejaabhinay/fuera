@@ -50,7 +50,7 @@ const sportContacts = {
   },
   chess: {
     captains: [
-      { name: 'RYALI SREESHANTH', contact: '8015179224' },
+      { name: 'SREESHANTH', contact: '8015179224' },
       { name: 'RITHANYAM', contact: '9791387328' },
     ],
     viceCaptains: [

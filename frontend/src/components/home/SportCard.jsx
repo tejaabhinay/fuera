@@ -4,8 +4,16 @@ import { getSportContacts } from '../../data/sportContacts'
 import { getPublicSportName } from '../../data/sportRules'
 import { sportGender } from '../../data/sportGender'
 
+const LOCAL_SPORT_IMAGES = {
+  handball: '/images/sports/handball.png',
+  volleyball: '/images/sports/volleyball.png',
+}
+
 function Artwork({ sport, displayName }) {
-  if (!sport.imageUrl) {
+  const sportKey = sport.name?.trim().toLowerCase()
+  const imageSrc = LOCAL_SPORT_IMAGES[sportKey] || sport.imageUrl
+
+  if (!imageSrc) {
     return (
       <div className="sport-card__placeholder" role="img" aria-label={`${displayName} image coming soon`}>
         <span>{displayName}</span>
@@ -13,7 +21,7 @@ function Artwork({ sport, displayName }) {
     )
   }
 
-  return <SportsImage src={sport.imageUrl} alt="" className="event-image" />
+  return <SportsImage src={imageSrc} alt="" className="event-image" />
 }
 
 function Captains({ sportName }) {

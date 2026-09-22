@@ -3,18 +3,19 @@ const rulesBySport = {
     title: 'Badminton',
     rules: [
       'Singles and doubles matches will be conducted on a knockout basis.',
+      'Only 1 university player is allowed per doubles team.',
       'Up to the quarter-finals: 21 points, 1 set (Rally Point System).',
       'Semi-finals to finals: 21 points, 3 sets (Rally Point System).',
-      'Only 1 university player is allowed per doubles team.',
+      "The referee's decision is final.",
     ],
     fee: 'Singles – ₹30/- | Doubles – ₹50/-',
   },
   football: {
     title: 'Football',
     rules: [
-      'Maximum 7 + 3 players per team.',
-      'Only 4 university players are allowed per team.',
       'The tournament will be conducted on a knockout basis.',
+      'Maximum 5 + 3 players per team.',
+      'Only 2 university players are allowed per team.',
       'Teams must report 10 minutes before their scheduled match.',
       'Players must wear the proper kit; sports shoes are compulsory.',
       "The referee's decision is final.",
@@ -24,9 +25,9 @@ const rulesBySport = {
   kabaddi: {
     title: 'Kabaddi',
     rules: [
+      'The tournament will be conducted on a knockout basis.',
       'Maximum 7 + 3 players per team.',
       'Only 3 university players are allowed per team.',
-      'The tournament will be conducted on a knockout basis.',
       "The referee's decision is final.",
     ],
     fee: '₹100 per team.',
@@ -34,8 +35,8 @@ const rulesBySport = {
   tennis: {
     title: 'Tennis',
     rules: [
-      'Only 1 university player is allowed in a doubles team.',
       'The match pattern will be decided based on the number of registrations.',
+      'Only 1 university player is allowed in a doubles team.',
       'Best of 11 games till the quarter-finals; best of three sets from the semi-finals.',
       "The referee's decision is final.",
     ],
@@ -62,6 +63,7 @@ const rulesBySport = {
       'A tennis ball will be used for matches.',
       'Only the first 72 teams will be allowed.',
       'Registration will be on a first-come, first-served basis.',
+      'Umpire decision will be final.',
     ],
     fee: '₹70 per team.',
   },
@@ -100,9 +102,9 @@ const rulesBySport = {
   volleyball: {
     title: 'Volleyball',
     rules: [
+      'The tournament will be conducted on a knockout basis.',
       'Maximum 6 + 2 players per team.',
       'Only 3 university players are allowed per team.',
-      'The tournament will be conducted on a knockout basis.',
       "The referee's decision will be final.",
     ],
     fee: '₹70/- per team.',
@@ -110,23 +112,21 @@ const rulesBySport = {
   basketball: {
     title: 'Basketball',
     rules: [
+      'Format: league or knockout basis.',
       'Players: 5 + 1 per team.',
       'University players: maximum of 2 per team.',
-      'Format: league and knockout basis.',
-      'Duration: 10 minutes per half, with a 2-minute break. Overtime: 5 minutes.',
-      'Fouls: maximum of 5 fouls per player.',
+      'Shoes are compulsory.',
       "The referee's decision is final.",
       'Teams must report 10 minutes before their game in proper kit.',
-      'Shoes are compulsory.',
     ],
     fee: '₹60/- per team.',
   },
   throwball: {
     title: 'Throwball',
     rules: [
+      'The match format will be decided based on the number of entries.',
       'Maximum 9 + 3 players per team.',
       'Matches will be conducted on a knockout or league basis.',
-      'The match format will be decided based on the number of entries.',
       "The referee's decision will be final.",
     ],
     fee: '₹70/- per team.',

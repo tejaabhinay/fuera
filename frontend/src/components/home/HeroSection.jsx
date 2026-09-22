@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { ArrowDown } from 'lucide-react'
 import ArrowIcon from '../common/ArrowIcon'
 import { SASTRA_LOGO_SRC } from '../common/BrandLockup'
 
@@ -27,7 +26,8 @@ const CURSOR_DURATION_MS = 1200
  */
 const HERO_ATHLETES = [
   { id: 'football', src: '/images/sports/football.webp' },
-  { id: 'handball', src: '/images/sports/handball.webp' },
+  { id: 'handball', src: '/images/sports/handball.png' },
+  { id: 'volleyball', src: '/images/sports/volleyball.png' },
   { id: 'basketball', src: '/images/sports/basketball.webp' },
   { id: 'cricket', src: '/images/sports/cricket.webp' },
   { id: 'badminton', src: '/images/sports/badminton.webp' },
@@ -38,10 +38,8 @@ const HERO_ATHLETES = [
   { id: 'throwball', src: '/images/sports/throwball.webp' },
   { id: 'table-tennis', src: '/images/sports/tabletennis.webp' },
 
-  // Echo figures. Only eleven distinct sport illustrations exist (the twelfth,
-  // volleyball, ships with a net across the whole frame and turns to mush at
-  // hero size), so the composition is filled out with smaller repeats placed
-  // far from their twin and never beside another figure of the same sport.
+  // Echo figures fill out the composition with smaller repeats placed far from
+  // their twin and never beside another figure of the same sport.
   // They are display:none by default and only appear where there is room.
   { id: 'echo-football', src: '/images/sports/football.webp', echo: true },
   { id: 'echo-badminton', src: '/images/sports/badminton.webp', echo: true },
@@ -167,10 +165,6 @@ export default function HeroSection({ hasLive = false }) {
         </div>
       </div>
 
-      <a className="scroll-prompt" href="#sports" aria-label="Scroll to sports">
-        <span>Scroll</span>
-        <ArrowDown size={13} aria-hidden="true" />
-      </a>
     </section>
   )
 }
