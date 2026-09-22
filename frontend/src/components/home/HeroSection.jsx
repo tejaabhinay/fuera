@@ -6,7 +6,7 @@ import { SASTRA_LOGO_SRC } from '../common/BrandLockup'
 // offsets; editing the copy no longer silently scrambles the line breaks.
 const HERO_TAGLINE_LINES = ['THE GAME', 'STARTS', 'HERE']
 const HERO_TAGLINE = HERO_TAGLINE_LINES.join(' ')
-const HERO_FEST_LABEL = 'INTRA-UNIVERSITY SPORTS FEST'
+const HERO_FEST_LABEL = 'INTRA-MURAL SPORTS FEST'
 const TYPE_SPEED_MS = 75
 const CURSOR_DURATION_MS = 1200
 
