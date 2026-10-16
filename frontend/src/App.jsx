@@ -7,6 +7,7 @@ import { getAuthToken, redirectToAdminLogin } from './services/api'
 // Only the public homepage is eager. Everything else — and especially the eight admin
 // pages plus admin.css — loads on demand so a visitor never downloads the admin UI.
 const FixturesPage = lazy(() => import('./pages/FixturesPage'))
+const WinnersPage = lazy(() => import('./pages/WinnersPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout'))
 const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'))
@@ -41,6 +42,7 @@ function protectedRoute(Page) {
 const routes = {
   '/': () => <HomePage />,
   '/fixtures': () => <FixturesPage />,
+  '/winners': () => <WinnersPage />,
   '/admin/login': () => <AdminLoginPage />,
   '/admin/signup': () => <AdminSignupPage />,
   '/admin': protectedRoute(AdminDashboardPage),

@@ -7,6 +7,7 @@ import LeaderboardSection from '../components/leaderboard/LeaderboardSection'
 import LiveNow from '../components/live/LiveNow'
 import PreviousEditions from '../components/home/PreviousEditions'
 import ResultsSection from '../components/results/ResultsSection'
+import WinnersSection from '../components/winners/WinnersSection'
 import TimelineSection from '../components/home/TimelineSection'
 import Footer from '../components/layout/Footer'
 import SiteHeader from '../components/layout/SiteHeader'
@@ -32,6 +33,7 @@ export default function HomePage() {
       <LiveNow fixtures={live} />
       <FeaturedSports fixtures={fixtures} />
       <BroadcastBanner fixture={next} />
+      <WinnersSection />
       <ResultsSection results={results} />
       <LeaderboardSection />
       <TimelineSection />
@@ -41,3 +43,4 @@ export default function HomePage() {
     </main>
   )
 }
+

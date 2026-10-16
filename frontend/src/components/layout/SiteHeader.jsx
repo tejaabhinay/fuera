@@ -12,6 +12,7 @@ export default function SiteHeader({ isHome = false }) {
   // Anchors resolve against the homepage when we are on a subpage.
   const prefix = isHome ? '' : '/'
   const links = [
+    { href: `${prefix}#winners`, label: 'Winners' },
     { href: `${prefix}#sports`, label: 'Sports' },
     { href: '/fixtures', label: 'Fixtures' },
     { href: `${prefix}#archive`, label: 'Archive' },
